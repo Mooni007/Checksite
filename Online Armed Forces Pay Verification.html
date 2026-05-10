@@ -18,14 +18,14 @@
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto',sans-serif;
   background:linear-gradient(135deg,#f5f7f0 0%,#eef5ea 50%,#f8faf7 100%);
-  color:var(--text-dark);line-height:1.6;min-height:100vh;
+  color:var(--text-dark);line-height:1.6;
   -webkit-font-smoothing:antialiased;
 }
 
-/* ========== MAIN CONTENT AREA ========== */
-.main-content-wrapper{
-  max-width:1140px;margin:0 auto;
-  padding:clamp(8px,1.5vw,15px) clamp(6px,1.5vw,15px);
+/* This page is designed to be loaded inside the landing page content area */
+.embedded-content{
+  max-width:1100px;margin:0 auto;
+  padding:clamp(10px,2vw,20px) clamp(8px,1.5vw,16px);
 }
 
 /* ===== MAIN CARD ===== */
@@ -57,6 +57,21 @@ body{
   font-size:clamp(8px,1.3vw,11px);font-weight:600;text-transform:uppercase;
   letter-spacing:2px;color:var(--accent-gold-dark);margin-top:4px;
 }
+
+/* ===== PAGE LABEL ===== */
+.page-label-bar{
+  text-align:center;padding:0.5rem 0;margin-bottom:0.5rem;
+}
+.page-label-bar span{
+  display:inline-block;
+  background:linear-gradient(135deg,#0a2e1f,#0d3b27);
+  color:#c8e6c9;padding:0.4rem 1.5rem;border-radius:50px;
+  font-size:clamp(0.7rem,1.2vw,0.85rem);font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  border:1.5px solid rgba(212,168,67,0.4);
+  box-shadow:0 2px 10px rgba(10,46,31,0.2);
+}
+.page-label-bar span i{color:var(--accent-gold-light);margin-right:0.4rem;}
 
 /* ===== SECTION TITLE ===== */
 .section-title{
@@ -98,8 +113,6 @@ body{
 .form-row input::placeholder{color:#aaa;font-weight:400;font-style:italic;}
 .form-row input:focus,.form-row select:focus{background:#fffef8;}
 .form-row input[type="date"]{cursor:pointer;color:#1a1a1a;}
-.form-row input[type="date"]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:0.6;transition:opacity 0.2s;}
-.form-row input[type="date"]::-webkit-calendar-picker-indicator:hover{opacity:1;}
 .form-row select{
   cursor:pointer;appearance:none;-webkit-appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b8941f' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
@@ -110,7 +123,6 @@ body{
 /* ===== THEMED BUTTONS WITH GOLDEN BORDERS ===== */
 .btn-row{text-align:center;margin:clamp(14px,2.2vw,24px) 0;display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(7px,0.9vw,10px);}
 
-/* Primary Calculate Button */
 .btn-calculate{
   display:inline-block;border:none;border-radius:30px;
   padding:clamp(9px,1.4vw,13px) clamp(26px,4vw,44px);
@@ -129,7 +141,6 @@ body{
 }
 .btn-calculate:active{transform:translateY(0);box-shadow:0 2px 10px rgba(10,46,31,0.3);}
 
-/* Secondary Buttons */
 .btn-print,.btn-recalc{
   display:inline-block;border-radius:25px;
   padding:clamp(7px,0.9vw,10px) clamp(14px,2vw,22px);
@@ -213,7 +224,7 @@ table.pay-table tbody tr.row-inc-skip td{background:#fafafa!important;color:#666
   transition:all 0.2s;margin:0 1px;background:#fff;color:#555;
 }
 .action-btn.add-btn:hover{background:#0a2e1f;color:#f0d078;border-color:#d4a843;box-shadow:0 0 10px rgba(212,168,67,.5);}
-.action-btn.delete-btn:hover{background:#e04040;color:#fff;border-color:#e04040;box-shadow:0 0 10px rgba(224,64,64,.4);}
+.action-btn.delete-btn:hover{background:#e04040;color:#fff;border-color:#e04040;}
 .action-btn.view-btn:hover{background:#0a2e1f;color:#f0d078;border-color:#d4a843;box-shadow:0 0 10px rgba(212,168,67,.5);}
 
 .pay-summary-footer{
@@ -261,20 +272,14 @@ table.pay-table tbody tr.row-inc-skip td{background:#fafafa!important;color:#666
 }
 .modal-body .modal-error.show{display:block;}
 .modal-field{margin-bottom:12px;}
-.modal-field label{
-  display:block;font-weight:700;color:var(--primary-dark);margin-bottom:4px;
-  font-size:10px;text-transform:uppercase;letter-spacing:.5px;
-}
+.modal-field label{display:block;font-weight:700;color:var(--primary-dark);margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
 .modal-field input,.modal-field select{
   width:100%;border:1.5px solid #ddd;border-radius:25px;
   padding:8px 12px;font-size:11px;font-family:inherit;color:#1a1a1a;
   outline:none;background:#ffffff;transition:border 0.2s;
 }
-.modal-field input:focus,.modal-field select:focus{
-  border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.12);
-}
+.modal-field input:focus,.modal-field select:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.12);}
 .modal-field select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23b8941f' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
-.modal-field .hint{font-size:9px;color:var(--text-muted);margin-top:3px;line-height:1.4;}
 .modal-footer{padding:10px 18px;display:flex;gap:6px;justify-content:flex-end;border-top:1px solid rgba(212,168,67,0.15);background:#fdf8ed;flex-shrink:0;}
 .btn-modal-ok{
   background:linear-gradient(180deg,#0a2e1f 0%,#0d3b27 40%,#0f402d 100%);
@@ -284,7 +289,7 @@ table.pay-table tbody tr.row-inc-skip td{background:#fafafa!important;color:#666
   transition:all 0.3s ease;box-shadow:0 3px 14px rgba(10,46,31,.3);
 }
 .btn-modal-ok:hover{background:linear-gradient(180deg,#0d3b27 0%,#1a5c3a 40%,#0f402d 100%);box-shadow:0 5px 20px rgba(10,46,31,.5);transform:translateY(-1px);border-color:#f0d078;}
-.btn-modal-cancel{background:transparent;color:var(--text-muted);border:1.5px solid rgba(0,0,0,.12);border-radius:25px;padding:7px 18px;font-size:10px;cursor:pointer;font-weight:600;transition:all 0.2s;}
+.btn-modal-cancel{background:transparent;color:var(--text-muted);border:1.5px solid rgba(0,0,0,.12);border-radius:25px;padding:7px 18px;font-size:10px;cursor:pointer;font-weight:600;}
 .btn-modal-cancel:hover{background:rgba(0,0,0,.02);}
 .btn-modal-delete{background:#c0392b;color:#fff;border:2px solid #e04040;border-radius:25px;padding:7px 22px;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
 .btn-modal-delete:hover{background:#e04040;}
@@ -319,15 +324,13 @@ table.pay-table tbody tr.row-inc-skip td{background:#fafafa!important;color:#666
 }
 .print-content{flex:1;overflow-y:auto;padding:clamp(12px,2vw,20px);color:#1a1a1a;background:#fff;}
 
-/* ===== MOBILE ===== */
 @media(max-width:768px){
-  .main-content-wrapper{padding:4px 2px;}
+  .embedded-content{padding:4px 2px;}
   .main-card{padding:10px 7px;}
   .form-row{flex-direction:column;border-radius:20px;}
   .form-row .form-label{width:100%;border-right:none;border-bottom:1px solid rgba(212,168,67,0.2);padding:9px 12px;min-width:auto;border-radius:20px 20px 0 0;font-size:11px;}
   .form-row input,.form-row select{padding:10px 14px;font-size:13px;border-radius:0 0 20px 20px;}
   .btn-calculate{padding:10px 30px;font-size:11px;}
-  .btn-print,.btn-recalc{padding:7px 13px;font-size:9px;}
   table.pay-table{min-width:560px;font-size:8px;}
 }
 @media(max-width:480px){
@@ -340,13 +343,17 @@ table.pay-table tbody tr.row-inc-skip td{background:#fafafa!important;color:#666
   body{background:#fff!important;}
   .btn-row,.td-actions,.action-btn{display:none!important;}
   .main-card{box-shadow:none!important;border:2px solid #000!important;padding:16px!important;}
-  table.pay-table thead th{background:#f0f0f0!important;color:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 }
 </style>
 </head>
 <body>
 
-<div class="main-content-wrapper">
+<div class="embedded-content">
+
+  <!-- Page Label - Shows this is Armed Forces section -->
+  <div class="page-label-bar">
+    <span><i class="fas fa-shield-alt"></i> Armed Forces Pay Verification</span>
+  </div>
 
   <!-- MAIN CARD -->
   <div class="main-card">
@@ -412,7 +419,7 @@ table.pay-table tbody tr.row-inc-skip td{background:#fafafa!important;color:#666
 
 <div class="print-preview-overlay" id="print_preview_overlay">
   <div class="print-preview-container">
-    <div class="modal-header" style="border-radius:12px 12px 0 0;"><span>Print Preview - Pay Detail Summary</span>
+    <div class="modal-header" style="border-radius:12px 12px 0 0;"><span>Print Preview</span>
       <div style="display:flex;gap:6px;">
         <button class="btn-modal-ok" style="padding:6px 12px;font-size:10px;" onclick="saveAsPDF()">PDF</button>
         <button class="btn-modal-ok" style="padding:6px 12px;font-size:10px;" onclick="printDocument()">Print</button>
@@ -427,7 +434,6 @@ table.pay-table tbody tr.row-inc-skip td{background:#fafafa!important;color:#666
 <script>
 'use strict';
 
-// ===== COMPLETE PAY SCALE DATA =====
 const PAY_SCALES={
 "Z-1":[{year:1991,min:920,inc:26,stages:[920,946,972,998,1024,1050,1076,1102,1128,1154,1180,1206,1232,1258,1284,1310,1336,1362,1388,1414,1440,1466,1492,1518,1544,1570,1596,1622,1648,1674,1700]},{year:1994,min:1245,inc:35,stages:[1245,1280,1315,1350,1385,1420,1455,1490,1525,1560,1595,1630,1665,1700,1735,1770,1805,1840,1875,1910,1945,1980,2015,2050,2085,2120,2155,2190,2225,2260,2295]},{year:2001,min:1870,inc:55,stages:[1870,1925,1980,2035,2090,2145,2200,2255,2310,2365,2420,2475,2530,2585,2640,2695,2750,2805,2860,2915,2970,3025,3080,3135,3190,3245,3300,3355,3410,3465,3520]},{year:2005,min:2150,inc:65,stages:[2150,2215,2280,2345,2410,2475,2540,2605,2670,2735,2800,2865,2930,2995,3060,3125,3190,3255,3320,3385,3450,3515,3580,3645,3710,3775,3840,3905,3970,4035,4100]},{year:2007,min:2475,inc:75,stages:[2475,2550,2625,2700,2775,2850,2925,3000,3075,3150,3225,3300,3375,3450,3525,3600,3675,3750,3825,3900,3975,4050,4125,4200,4275,4350,4425,4500,4575,4650,4725]},{year:2008,min:2970,inc:90,stages:[2970,3060,3150,3240,3330,3420,3510,3600,3690,3780,3870,3960,4050,4140,4230,4320,4410,4500,4590,4680,4770,4860,4950,5040,5130,5220,5310,5400,5490,5580,5670]},{year:2011,min:4800,inc:150,stages:[4800,4950,5100,5250,5400,5550,5700,5850,6000,6150,6300,6450,6600,6750,6900,7050,7200,7350,7500,7650,7800,7950,8100,8250,8400,8550,8700,8850,9000,9150,9300]},{year:2015,min:6210,inc:195,stages:[6210,6405,6600,6795,6990,7185,7380,7575,7770,7965,8160,8355,8550,8745,8940,9135,9330,9525,9720,9915,10110,10305,10500,10695,10890,11085,11280,11475,11670,11865,12060]},{year:2016,min:7640,inc:240,stages:[7640,7880,8120,8360,8600,8840,9080,9320,9560,9800,10040,10280,10520,10760,11000,11240,11480,11720,11960,12200,12440,12680,12920,13160,13400,13640,13880,14120,14360,14600,14840]},{year:2017,min:10610,inc:330,stages:[10610,10940,11270,11600,11930,12260,12590,12920,13250,13580,13910,14240,14570,14900,15230,15560,15890,16220,16550,16880,17210,17540,17870,18200,18530,18860,19190,19520,19850,20180,20510]},{year:2022,min:15620,inc:490,stages:[15620,16110,16600,17090,17580,18070,18560,19050,19540,20030,20520,21010,21500,21990,22480,22970,23460,23950,24440,24930,25420,25910,26400,26890,27380,27870,28360,28850,29340,29830,30320]}],
 "Z-2":[{year:1991,min:1035,inc:49,stages:[1035,1084,1133,1182,1231,1280,1329,1378,1427,1476,1525,1574,1623,1672,1721,1770,1819,1868,1917,1966,2015,2064,2113,2162,2211,2260,2309,2358,2407,2456,2505]},{year:1994,min:1400,inc:66,stages:[1400,1466,1532,1598,1664,1730,1796,1862,1928,1994,2060,2126,2192,2258,2324,2390,2456,2522,2588,2654,2720,2786,2852,2918,2984,3050,3116,3182,3248,3314,3380]},{year:2001,min:2100,inc:100,stages:[2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,4100,4200,4300,4400,4500,4600,4700,4800,4900,5000,5100]},{year:2005,min:2415,inc:115,stages:[2415,2530,2645,2760,2875,2990,3105,3220,3335,3450,3565,3680,3795,3910,4025,4140,4255,4370,4485,4600,4715,4830,4945,5060,5175,5290,5405,5520,5635,5750,5865]},{year:2007,min:2780,inc:135,stages:[2780,2915,3050,3185,3320,3455,3590,3725,3860,3995,4130,4265,4400,4535,4670,4805,4940,5075,5210,5345,5480,5615,5750,5885,6020,6155,6290,6425,6560,6695,6830]},{year:2008,min:3340,inc:160,stages:[3340,3500,3660,3820,3980,4140,4300,4460,4620,4780,4940,5100,5260,5420,5580,5740,5900,6060,6220,6380,6540,6700,6860,7020,7180,7340,7500,7660,7820,7980,8140]},{year:2011,min:5400,inc:260,stages:[5400,5660,5920,6180,6440,6700,6960,7220,7480,7740,8000,8260,8520,8780,9040,9300,9560,9820,10080,10340,10600,10860,11120,11380,11640,11900,12160,12420,12680,12940,13200]},{year:2015,min:6985,inc:340,stages:[6985,7325,7665,8005,8345,8685,9025,9365,9705,10045,10385,10725,11065,11405,11745,12085,12425,12765,13105,13445,13785,14125,14465,14805,15145,15485,15825,16165,16505,16845,17185]},{year:2016,min:8590,inc:420,stages:[8590,9010,9430,9850,10270,10690,11110,11530,11950,12370,12790,13210,13630,14050,14470,14890,15310,15730,16150,16570,16990,17410,17830,18250,18670,19090,19510,19930,20350,20770,21190]},{year:2017,min:11930,inc:580,stages:[11930,12510,13090,13670,14250,14830,15410,15990,16570,17150,17730,18310,18890,19470,20050,20630,21210,21790,22370,22950,23530,24110,24690,25270,25850,26430,27010,27590,28170,28750,29330]},{year:2022,min:17570,inc:860,stages:[17570,18430,19290,20150,21010,21870,22730,23590,24450,25310,26170,27030,27890,28750,29610,30470,31330,32190,33050,33910,34770,35630,36490,37350,38210,39070,39930,40790,41650,42510,43370]}],
@@ -439,10 +445,7 @@ const PAY_EVENTS=[
 {date:'01/07/1994',type:'rev',label:'Pay Revised on 01/07/1994',scaleYear:1994},{date:'01/12/1994',type:'inc',label:'Annual Inc on 01/12/1994'},{date:'01/12/1995',type:'inc',label:'Annual Inc on 01/12/1995'},{date:'01/12/1996',type:'inc',label:'Annual Inc on 01/12/1996'},{date:'01/12/1997',type:'inc',label:'Annual Inc on 01/12/1997'},{date:'01/12/1998',type:'inc',label:'Annual Inc on 01/12/1998'},{date:'01/12/1999',type:'inc',label:'Annual Inc on 01/12/1999'},{date:'01/12/2000',type:'inc',label:'Annual Inc on 01/12/2000'},{date:'01/12/2001',type:'inc',label:'Annual Inc on 01/12/2001'},{date:'24/12/2001',type:'rev',label:'Pay Revised on 24/12/2001',scaleYear:2001},{date:'01/12/2002',type:'inc',label:'Annual Inc on 01/12/2002'},{date:'01/12/2003',type:'inc',label:'Annual Inc on 01/12/2003'},{date:'01/12/2004',type:'inc',label:'Annual Inc on 01/12/2004'},{date:'01/07/2005',type:'rev',label:'Pay Revised on 01/07/2005',scaleYear:2005},{date:'01/12/2005',type:'inc',label:'Annual Inc on 01/12/2005'},{date:'01/12/2006',type:'inc',label:'Annual Inc on 01/12/2006'},{date:'01/07/2007',type:'rev',label:'Pay Revised on 01/07/2007',scaleYear:2007},{date:'01/12/2007',type:'inc',label:'Annual Inc on 01/12/2007'},{date:'01/07/2008',type:'rev',label:'Pay Revised on 01/07/2008',scaleYear:2008},{date:'01/12/2008',type:'inc',label:'Annual Inc on 01/12/2008'},{date:'01/12/2009',type:'inc',label:'Annual Inc on 01/12/2009'},{date:'01/12/2010',type:'inc',label:'Annual Inc on 01/12/2010'},{date:'01/07/2011',type:'rev',label:'Pay Revised on 01/07/2011',scaleYear:2011},{date:'01/12/2011',type:'inc',label:'Annual Inc on 01/12/2011'},{date:'01/12/2012',type:'inc',label:'Annual Inc on 01/12/2012'},{date:'01/12/2013',type:'inc',label:'Annual Inc on 01/12/2013'},{date:'01/12/2014',type:'inc',label:'Annual Inc on 01/12/2014'},{date:'01/07/2015',type:'rev',label:'Pay Revised on 01/07/2015',scaleYear:2015},{date:'01/12/2015',type:'inc',label:'Annual Inc on 01/12/2015'},{date:'01/07/2016',type:'rev',label:'Pay Revised on 01/07/2016',scaleYear:2016},{date:'01/12/2016',type:'inc',label:'Annual Inc on 01/12/2016'},{date:'01/07/2017',type:'rev',label:'Pay Revised on 01/07/2017',scaleYear:2017},{date:'01/12/2017',type:'inc',label:'Annual Inc on 01/12/2017'},{date:'01/12/2018',type:'inc',label:'Annual Inc on 01/12/2018'},{date:'01/12/2019',type:'inc',label:'Annual Inc on 01/12/2019'},{date:'01/12/2020',type:'inc',label:'Annual Inc on 01/12/2020'},{date:'01/12/2021',type:'inc',label:'Annual Inc on 01/12/2021'},{date:'01/07/2022',type:'rev',label:'Pay Revised on 01/07/2022',scaleYear:2022},{date:'01/12/2022',type:'inc',label:'Annual Inc on 01/12/2022'},{date:'01/12/2023',type:'inc',label:'Annual Inc on 01/12/2023'},{date:'01/12/2024',type:'inc',label:'Annual Inc on 01/12/2024'},{date:'01/12/2025',type:'inc',label:'Annual Inc on 01/12/2025'},{date:'01/12/2026',type:'inc',label:'Annual Inc on 01/12/2026'}
 ];
 
-(function(){
-  const sel=document.getElementById('inp_scale');
-  if(sel){const scales=Object.keys(PAY_SCALES).sort();let opts='<option value="">-- Select Pay Scale --</option>';scales.forEach(s=>{opts+=`<option value="${s}">${s}</option>`;});sel.innerHTML=opts;}
-})();
+(function(){const sel=document.getElementById('inp_scale');if(sel){const scales=Object.keys(PAY_SCALES).sort();let opts='<option value="">-- Select Pay Scale --</option>';scales.forEach(s=>{opts+=`<option value="${s}">${s}</option>`;});sel.innerHTML=opts;}})();
 
 const REV_EFFECTIVE_DATES={};PAY_EVENTS.forEach(ev=>{if(ev.type==='rev'&&ev.scaleYear){if(!REV_EFFECTIVE_DATES[ev.scaleYear]){REV_EFFECTIVE_DATES[ev.scaleYear]=ev.date;}}});
 function pD(s){if(!s)return null;s=s.trim();if(s.match(/^\d{4}-\d{2}-\d{2}$/)){const p=s.split('-');s=p[2]+'/'+p[1]+'/'+p[0];}const p=s.split('/');if(p.length!==3)return null;const d=new Date(+p[2],+p[1]-1,+p[0]);return isNaN(d.getTime())?null:d;}
@@ -492,17 +495,17 @@ function renderTable(){G_R.forEach((r,i)=>r.sno=i+1);const lR=G_R[G_R.length-1];
 function getRC(t){switch(t){case'mustered':return'row-mustered';case'rev':return'row-rev';case'pension':return'row-pension';case'prom':return'row-prom';case'upgrade':return'row-upgrade';case'advinc':return'row-advinc';case'inc-skip':return'row-inc-skip';default:return'row-inc';}}
 function viewRow(idx){const r=G_R[idx];if(!r)return;const sc=gSS(r.scale,r.scaleRevYear);document.getElementById('view_modal_body').innerHTML=`<div class="detail-item"><span class="detail-key">S.No</span><span class="detail-val">${r.sno}</span></div><div class="detail-item"><span class="detail-key">Event</span><span class="detail-val">${r.eventLabel}</span></div><div class="detail-item"><span class="detail-key">Date</span><span class="detail-val">${fD(r.date)}</span></div><div class="detail-item"><span class="detail-key">Scale</span><span class="detail-val">${r.scale} (${sc})</span></div><div class="detail-item"><span class="detail-key">Basic Pay</span><span class="detail-val" style="font-weight:700;">Rs. ${r.pay.toLocaleString()}</span></div>`;document.getElementById('view_modal').classList.add('active');}
 function showActionMenu(idx,event){event.stopPropagation();const ex=document.getElementById('action_menu');if(ex)ex.remove();const m=document.createElement('div');m.id='action_menu';m.className='action-menu';[{l:'Upgradation',a:'upgradation'},{l:'Advance Increment',a:'advinc'},{l:'Promotion',a:'promotion'}].forEach(x=>{const item=document.createElement('div');item.className='action-menu-item';item.textContent=x.l;item.onclick=()=>{m.remove();openModal(idx,x.a);};m.appendChild(item);});document.body.appendChild(m);const rect=event.target.getBoundingClientRect();m.style.left=Math.min(rect.left-100,window.innerWidth-250)+'px';m.style.top=Math.min(rect.bottom+5,window.innerHeight-160)+'px';setTimeout(()=>document.addEventListener('click',function c(e){if(!m.contains(e.target)){m.remove();document.removeEventListener('click',c);}}),10);}
-function openModal(idx,action){G_MI=idx;G_MA=action;const t=document.getElementById('modal_title'),b=document.getElementById('modal_body');const scaleOpts=Object.keys(PAY_SCALES).sort().map(s=>`<option value="${s}">${s}</option>`).join('');switch(action){case'upgradation':t.innerHTML='Upgradation';b.innerHTML=`<div class="modal-error" id="modal_error"></div><div class="modal-field"><label>Upgradation Type</label><select id="upgrade_type"><option value="">-- Select Type --</option><option value="appointment">On Appointment</option><option value="scale">Upgrade Scale</option></select><div class="hint">On Appointment: Next above stage. Upgrade Scale: Same stage.</div></div><div class="modal-field"><label>Upgradation Date</label><input type="date" id="upgrade_date"></div><div class="modal-field"><label>Upgraded to Scale</label><select id="upgrade_scale"><option value="">-- Select New Scale --</option>${scaleOpts}</select></div>`;break;case'advinc':t.innerHTML='Advance Increment';b.innerHTML=`<div class="modal-error" id="modal_error"></div><div class="modal-field"><label>Number of Advance Increments</label><select id="advinc_count"><option value="">-- Select Count --</option>${[1,2,3,4,5].map(n=>`<option value="${n}">${n} Increment${n>1?'s':''}</option>`).join('')}</select></div><div class="modal-field"><label>Effective Date</label><input type="date" id="advinc_date"></div>`;break;case'promotion':t.innerHTML='Promotion';b.innerHTML=`<div class="modal-error" id="modal_error"></div><div class="modal-field"><label>Promotion Scale</label><select id="prom_scale"><option value="">-- Select Scale --</option>${scaleOpts}</select></div><div class="modal-field"><label>Option Availed</label><select id="prom_option"><option value="">-- Select --</option><option value="avail">Avail</option><option value="notavail">Not Avail</option></select></div><div class="modal-field"><label>Date of Promotion</label><input type="date" id="prom_date"></div>`;break;}document.getElementById('main_modal').classList.add('active');}
+function openModal(idx,action){G_MI=idx;G_MA=action;const t=document.getElementById('modal_title'),b=document.getElementById('modal_body');const scaleOpts=Object.keys(PAY_SCALES).sort().map(s=>`<option value="${s}">${s}</option>`).join('');switch(action){case'upgradation':t.innerHTML='Upgradation';b.innerHTML=`<div class="modal-error" id="modal_error"></div><div class="modal-field"><label>Upgradation Type</label><select id="upgrade_type"><option value="">-- Select --</option><option value="appointment">On Appointment</option><option value="scale">Upgrade Scale</option></select></div><div class="modal-field"><label>Date</label><input type="date" id="upgrade_date"></div><div class="modal-field"><label>New Scale</label><select id="upgrade_scale"><option value="">-- Select --</option>${scaleOpts}</select></div>`;break;case'advinc':t.innerHTML='Advance Increment';b.innerHTML=`<div class="modal-error" id="modal_error"></div><div class="modal-field"><label>Increments</label><select id="advinc_count"><option value="">-- Select --</option>${[1,2,3,4,5].map(n=>`<option value="${n}">${n} Increment${n>1?'s':''}</option>`).join('')}</select></div><div class="modal-field"><label>Date</label><input type="date" id="advinc_date"></div>`;break;case'promotion':t.innerHTML='Promotion';b.innerHTML=`<div class="modal-error" id="modal_error"></div><div class="modal-field"><label>New Scale</label><select id="prom_scale"><option value="">-- Select --</option>${scaleOpts}</select></div><div class="modal-field"><label>Option</label><select id="prom_option"><option value="">-- Select --</option><option value="avail">Avail</option><option value="notavail">Not Avail</option></select></div><div class="modal-field"><label>Date</label><input type="date" id="prom_date"></div>`;break;}document.getElementById('main_modal').classList.add('active');}
 function closeModal(){document.getElementById('main_modal').classList.remove('active');G_MA=null;G_MI=null;}
 function sME(m){const e=document.getElementById('modal_error');if(e){e.textContent=m;e.classList.add('show');}}
 function applyModalAction(){if(G_MA==='upgradation')aU();else if(G_MA==='advinc')aAI();else if(G_MA==='promotion')aP();}
-function aU(){const uType=document.getElementById('upgrade_type').value,dS=document.getElementById('upgrade_date').value,s=document.getElementById('upgrade_scale').value;if(!uType||!dS||!s){sME('Please fill all fields.');return;}const d=pD(dS);if(!d||d<G_MD||d>G_RD){sME('Invalid date.');return;}const pr=G_R[G_MI];if(!pr)return;const cP=pr.pay,cS=pr.scale,cRY=pr.scaleRevYear,rY=gARY(s,d),nr=gSE(s,rY);if(!nr)return;let nP,remark;if(uType==='appointment'){nP=fNH(s,rY,cP+1);remark=`On Appointment: Next above stage in ${s}`;}else{const si=gSI(cS,cRY,cP);nP=nr.stages[Math.min(si,nr.stages.length-1)];remark=`Upgrade Scale: Same stage in ${s}`;}const ip=G_MI+1,rB=G_R.slice(0,ip),rA=rP(s,rY,nP,d,false);G_R=[...rB,{id:'r'+Date.now(),eventLabel:`Upgradation to Scale ${s} w.e.f. ${fD(d)}`,date:d,scale:s,scaleRevYear:rY,pay:nP,changeAmt:nP-cP,remark:remark,type:'upgrade'},...rA];closeModal();renderTable();}
-function aAI(){const c=parseInt(document.getElementById('advinc_count').value),dS=document.getElementById('advinc_date').value;if(!c||!dS){sME('Please fill all fields.');return;}const d=pD(dS);if(!d||d<G_MD||d>G_RD){sME('Invalid date.');return;}const pr=G_R[G_MI];if(!pr)return;const cP=pr.pay,cS=pr.scale,cRY=pr.scaleRevYear;if(iMS(cS,cRY,cP)){sME('Already at max stage.');return;}const nP=aMI(cS,cRY,cP,c),ip=G_MI+1,rB=G_R.slice(0,ip),rA=rP(cS,cRY,nP,d,false);G_R=[...rB,{id:'r'+Date.now(),eventLabel:`Advance Increment (${c}x)`,date:d,scale:cS,scaleRevYear:cRY,pay:nP,changeAmt:nP-cP,remark:`${c} Advance Increment(s)`,type:'advinc'},...rA];closeModal();renderTable();}
-function aP(){const s=document.getElementById('prom_scale').value,o=document.getElementById('prom_option').value,dS=document.getElementById('prom_date').value;if(!s||!o||!dS){sME('Please fill all fields.');return;}const d=pD(dS);if(!d||d<G_MD||d>G_RD){sME('Invalid date.');return;}const pr=G_R[G_MI];if(!pr)return;const cP=pr.pay,cS=pr.scale,cRY=pr.scaleRevYear;const rY=gARY(s,d),curInc=gInc(cS,cRY),promInc=gInc(s,rY);let total,pP,sk;if(o==='avail'){total=cP+curInc+promInc;sk=true;}else{total=cP+promInc;sk=false;}pP=fNH(s,rY,total);const ip=G_MI+1,rB=G_R.slice(0,ip),rA=rP(s,rY,pP,d,sk);G_R=[...rB,{id:'r'+Date.now(),eventLabel:`Promotion to Scale ${s}`,date:d,scale:s,scaleRevYear:rY,pay:pP,changeAmt:pP-cP,remark:`${o==='avail'?'Avail':'Not Avail'}`,type:'prom'},...rA];closeModal();renderTable();}
+function aU(){const uType=document.getElementById('upgrade_type').value,dS=document.getElementById('upgrade_date').value,s=document.getElementById('upgrade_scale').value;if(!uType||!dS||!s){sME('Fill all fields.');return;}const d=pD(dS);if(!d||d<G_MD||d>G_RD){sME('Invalid date.');return;}const pr=G_R[G_MI];if(!pr)return;const cP=pr.pay,cS=pr.scale,cRY=pr.scaleRevYear,rY=gARY(s,d),nr=gSE(s,rY);if(!nr)return;let nP;if(uType==='appointment'){nP=fNH(s,rY,cP+1);}else{const si=gSI(cS,cRY,cP);nP=nr.stages[Math.min(si,nr.stages.length-1)];}const ip=G_MI+1,rB=G_R.slice(0,ip),rA=rP(s,rY,nP,d,false);G_R=[...rB,{id:'r'+Date.now(),eventLabel:`Upgradation to ${s}`,date:d,scale:s,scaleRevYear:rY,pay:nP,changeAmt:nP-cP,remark:'Upgradation',type:'upgrade'},...rA];closeModal();renderTable();}
+function aAI(){const c=parseInt(document.getElementById('advinc_count').value),dS=document.getElementById('advinc_date').value;if(!c||!dS){sME('Fill all fields.');return;}const d=pD(dS);if(!d||d<G_MD||d>G_RD){sME('Invalid date.');return;}const pr=G_R[G_MI];if(!pr)return;const cP=pr.pay,cS=pr.scale,cRY=pr.scaleRevYear;if(iMS(cS,cRY,cP)){sME('Max stage.');return;}const nP=aMI(cS,cRY,cP,c),ip=G_MI+1,rB=G_R.slice(0,ip),rA=rP(cS,cRY,nP,d,false);G_R=[...rB,{id:'r'+Date.now(),eventLabel:`Adv Inc (${c}x)`,date:d,scale:cS,scaleRevYear:cRY,pay:nP,changeAmt:nP-cP,remark:`${c} Adv Inc`,type:'advinc'},...rA];closeModal();renderTable();}
+function aP(){const s=document.getElementById('prom_scale').value,o=document.getElementById('prom_option').value,dS=document.getElementById('prom_date').value;if(!s||!o||!dS){sME('Fill all fields.');return;}const d=pD(dS);if(!d||d<G_MD||d>G_RD){sME('Invalid date.');return;}const pr=G_R[G_MI];if(!pr)return;const cP=pr.pay,cS=pr.scale,cRY=pr.scaleRevYear;const rY=gARY(s,d),curInc=gInc(cS,cRY),promInc=gInc(s,rY);let total,pP,sk;if(o==='avail'){total=cP+curInc+promInc;sk=true;}else{total=cP+promInc;sk=false;}pP=fNH(s,rY,total);const ip=G_MI+1,rB=G_R.slice(0,ip),rA=rP(s,rY,pP,d,sk);G_R=[...rB,{id:'r'+Date.now(),eventLabel:`Promotion to ${s}`,date:d,scale:s,scaleRevYear:rY,pay:pP,changeAmt:pP-cP,remark:`${o==='avail'?'Avail':'Not Avail'}`,type:'prom'},...rA];closeModal();renderTable();}
 function rP(s,ry,sP,aD,skF){const res=[];let cP=sP,cS=s,cRY=ry,sk=skF;for(const ev of PAY_EVENTS){const ed=pD(ev.date);if(!ed||ed<=aD||ed>G_RD)continue;if(ev.type==='inc'){if(sk){sk=false;res.push({id:'r'+Date.now()+Math.random(),eventLabel:ev.label+' (Skip)',date:ed,scale:cS,scaleRevYear:cRY,pay:cP,changeAmt:0,remark:'Skip',type:'inc-skip'});continue;}if(iMS(cS,cRY,cP)){res.push({id:'r'+Date.now()+Math.random(),eventLabel:ev.label+' (Max)',date:ed,scale:cS,scaleRevYear:cRY,pay:cP,changeAmt:0,remark:'Max',type:'inc'});continue;}const pr=cP;cP=aI(cS,cRY,cP);res.push({id:'r'+Date.now()+Math.random(),eventLabel:ev.label,date:ed,scale:cS,scaleRevYear:cRY,pay:cP,changeAmt:cP-pr,remark:'Inc',type:'inc'});}else if(ev.type==='rev'){if(!gSE(cS,ev.scaleYear))continue;const pr=cP,oRY=cRY;cRY=ev.scaleYear;cP=fOR(cS,oRY,cRY,pr);res.push({id:'r'+Date.now()+Math.random(),eventLabel:ev.label,date:ed,scale:cS,scaleRevYear:cRY,pay:cP,changeAmt:cP-pr,remark:'Revision',type:'rev'});}}if(jN(G_RD)&&!iMS(cS,cRY,cP)){const pr=cP;cP=aI(cS,cRY,cP);res.push({id:'r'+Date.now()+Math.random(),eventLabel:'Pension Inc',date:G_RD,scale:cS,scaleRevYear:cRY,pay:cP,changeAmt:cP-pr,remark:'Pension',type:'pension'});}return res;}
 function openPrintPreview(){if(!G_R.length){alert('Calculate first.');return;}const nm=document.getElementById('inp_name').value||'—',m=document.getElementById('inp_mustred').value||'—',r=document.getElementById('inp_retire').value||'—',s=document.getElementById('inp_scale').value||'—';let tR='';G_R.forEach((r,i)=>{r.sno=i+1;const sc=gSS(r.scale,r.scaleRevYear),ch=r.changeAmt>0?'+'+r.changeAmt.toLocaleString():(r.changeAmt<0?r.changeAmt.toLocaleString():'—');tR+=`<tr><td style="padding:5px;border:1px solid #000;">${r.sno}</td><td style="padding:5px;border:1px solid #000;">${r.eventLabel}</td><td style="padding:5px;border:1px solid #000;">${r.scale} (${sc})</td><td style="padding:5px;border:1px solid #000;font-weight:bold;">${r.pay.toLocaleString()}</td><td style="padding:5px;border:1px solid #000;">${ch}</td><td style="padding:5px;border:1px solid #000;">${r.remark}</td></tr>`;});const lR=G_R[G_R.length-1];document.getElementById('print_preview_content').innerHTML=`<h2 style="text-align:center;">Pay Detail Summary</h2><p><b>Name:</b> ${nm} | <b>Mustered:</b> ${m} | <b>Scale:</b> ${s} | <b>Retirement:</b> ${r}</p><table style="width:100%;border-collapse:collapse;border:2px solid #000;"><thead><tr style="background:#000;color:#fff;"><th>S.No</th><th>Pay Details</th><th>Scale</th><th>Basic Pay</th><th>Change</th><th>Remarks</th></tr></thead><tbody>${tR}</tbody></table><p style="font-weight:bold;">Final Pay: Rs. ${lR.pay.toLocaleString()}</p>`;document.getElementById('print_preview_overlay').classList.add('active');}
 function closePrintPreview(){document.getElementById('print_preview_overlay').classList.remove('active');}
-function printDocument(){const c=document.getElementById('print_preview_content').innerHTML;const pw=window.open('','_blank','width=900,height=700');if(!pw)return;pw.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Pay Detail</title><style>body{font-family:sans-serif;padding:20px;}@page{size:A4;margin:10mm;}@media print{body{-webkit-print-color-adjust:exact;}}</style></head><body>${c}</body></html>`);pw.document.close();setTimeout(()=>pw.print(),500);}
+function printDocument(){const c=document.getElementById('print_preview_content').innerHTML;const pw=window.open('','_blank','width=900,height=700');if(!pw)return;pw.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Pay Detail</title><style>body{font-family:sans-serif;padding:20px;}@page{size:A4;margin:10mm;}</style></head><body>${c}</body></html>`);pw.document.close();setTimeout(()=>pw.print(),500);}
 function saveAsPDF(){printDocument();}
 function showErr(m){const e=document.getElementById('error_area');e.textContent=m;e.classList.remove('hidden');}
 
@@ -511,7 +514,7 @@ document.getElementById('confirm_modal').addEventListener('click',function(e){if
 document.getElementById('print_preview_overlay').addEventListener('click',function(e){if(e.target===this)closePrintPreview();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('action_menu')?.remove();closeModal();closeConfirmModal();closePrintPreview();document.getElementById('view_modal')?.classList.remove('active');}});
 
-console.log('✅ Armed Forces Pay Verification Ready');
+console.log('✅ Armed Forces Pay Verification Ready - Embedded Version');
 </script>
 </body>
 </html>
