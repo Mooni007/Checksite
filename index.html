@@ -84,6 +84,115 @@
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
 
+    /* ========== DYNAMIC PAGE LOADER STYLES ========== */
+    #page-loader {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.85);
+      z-index: 9998;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    #page-loader.active {
+      display: flex;
+    }
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(212,168,67,0.2);
+      border-top: 4px solid var(--accent-gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* ========== ERROR MODAL ========== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-box {
+      background: #fff;
+      max-width: 450px;
+      width: 90%;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      border: 2px solid rgba(212,168,67,0.5);
+      position: relative;
+      animation: modalPop 0.4s ease;
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-icon {
+      font-size: 3.5rem;
+      color: var(--accent-gold-dark);
+      margin-bottom: 1rem;
+    }
+    .modal-box h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 0.8rem;
+    }
+    .modal-box p {
+      color: #5a6b5a;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .modal-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #d4a843, #b8941f);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(212,168,67,0.3);
+    }
+    .modal-home-btn:hover {
+      background: linear-gradient(135deg, #b8941f, #8b6914);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(212,168,67,0.4);
+    }
+
+    /* ========== DYNAMIC CONTENT CONTAINER ========== */
+    #dynamic-content {
+      transition: opacity 0.3s ease;
+    }
+
     /* ========== TOP HEADER ========== */
     .top-header {
       background: linear-gradient(135deg, #071f13 0%, #0a2e1f 40%, #0d3b27 70%, #0a2e1f 100%);
@@ -140,7 +249,6 @@
     /* ========== MAIN CONTENT ========== */
     .main-content { flex: 1; max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
 
-    /* Skip to main content accessibility */
     .skip-to-main { position: absolute; top: -40px; left: 0; background: var(--accent-gold); color: var(--white); padding: 8px 16px; z-index: 9999; border-radius: 0 0 var(--radius-sm) 0; transition: top 0.3s; }
     .skip-to-main:focus { top: 0; }
 
@@ -304,6 +412,24 @@
   <!-- Skip to main content for accessibility -->
   <a href="#mainContent" class="skip-to-main">Skip to main content</a>
 
+  <!-- Page Loader -->
+  <div id="page-loader">
+    <div class="loader-spinner"></div>
+    <p style="color: var(--primary-dark); font-weight: 600;">Loading page...</p>
+  </div>
+
+  <!-- Error Modal -->
+  <div class="modal-overlay" id="errorModal">
+    <div class="modal-box">
+      <div class="modal-icon"><i class="fas fa-exclamation-triangle"></i></div>
+      <h3>Page Load Error</h3>
+      <p>We're sorry, the requested page could not be loaded. This could be due to a network issue or a broken link. Please try again or return to the home page.</p>
+      <button class="modal-home-btn" onclick="closeErrorModal()">
+        <i class="fas fa-home"></i> Back to Home
+      </button>
+    </div>
+  </div>
+
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   
   <!-- Sidebar Navigation -->
@@ -313,15 +439,15 @@
       <div class="sidebar-subtitle">Civil & Armed Forces</div>
     </div>
     <nav class="sidebar-nav" aria-label="Services menu">
-      <a href="#" class="sidebar-nav-item active" aria-current="page"><i class="fas fa-home"></i> Home</a>
+      <a href="index.html" class="sidebar-nav-item active" data-page="home" aria-current="page"><i class="fas fa-home"></i> Home</a>
       <div class="sidebar-dropdown" id="dropdown1">
         <div class="sidebar-nav-item sidebar-dropdown-toggle" onclick="toggleSidebarDropdown('dropdown1')" role="button" aria-expanded="false">
           <div style="display:flex;align-items:center;gap:0.8rem;"><i class="fas fa-check-circle"></i> Pay Verification</div>
           <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
         </div>
         <div class="sidebar-submenu" role="region" aria-label="Pay Verification options">
-          <a href="#" aria-label="Civil Employee Pay Verification"><i class="fas fa-user-tie"></i> Civil Employee</a>
-          <a href="#" aria-label="Armed Forces Pay Verification"><i class="fas fa-shield-alt"></i> Armed Forces</a>
+          <a href="civil-pay-verification.html" data-page="civil-pv" aria-label="Civil Employee Pay Verification"><i class="fas fa-user-tie"></i> Civil Employee</a>
+          <a href="Online Armed Forces Pay Verification.html" data-page="armed-pv" aria-label="Armed Forces Pay Verification"><i class="fas fa-shield-alt"></i> Armed Forces</a>
         </div>
       </div>
       <div class="sidebar-dropdown" id="dropdown2">
@@ -330,8 +456,8 @@
           <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
         </div>
         <div class="sidebar-submenu" role="region" aria-label="Pay Fixation options">
-          <a href="#" aria-label="Civil Employee Pay Fixation"><i class="fas fa-user-tie"></i> Civil Employee</a>
-          <a href="#" aria-label="Armed Forces Pay Fixation"><i class="fas fa-shield-alt"></i> Armed Forces</a>
+          <a href="civil-pay-fixation.html" data-page="civil-pf" aria-label="Civil Employee Pay Fixation"><i class="fas fa-user-tie"></i> Civil Employee</a>
+          <a href="armed-pay-fixation.html" data-page="armed-pf" aria-label="Armed Forces Pay Fixation"><i class="fas fa-shield-alt"></i> Armed Forces</a>
         </div>
       </div>
       <div class="sidebar-dropdown" id="dropdown3">
@@ -340,8 +466,8 @@
           <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
         </div>
         <div class="sidebar-submenu" role="region" aria-label="Pension Calculator options">
-          <a href="#" aria-label="Civil Employee Pension Calculator"><i class="fas fa-user-tie"></i> Civil Employee</a>
-          <a href="#" aria-label="Armed Forces Pension Calculator"><i class="fas fa-shield-alt"></i> Armed Forces</a>
+          <a href="civil-pension-calculator.html" data-page="civil-pc" aria-label="Civil Employee Pension Calculator"><i class="fas fa-user-tie"></i> Civil Employee</a>
+          <a href="armed-pension-calculator.html" data-page="armed-pc" aria-label="Armed Forces Pension Calculator"><i class="fas fa-shield-alt"></i> Armed Forces</a>
         </div>
       </div>
       <div class="sidebar-dropdown" id="dropdown4">
@@ -350,8 +476,8 @@
           <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
         </div>
         <div class="sidebar-submenu" role="region" aria-label="Restoration Date options">
-          <a href="#" aria-label="Civil Employee Restoration Date"><i class="fas fa-user-tie"></i> Civil Employee</a>
-          <a href="#" aria-label="Armed Forces Restoration Date"><i class="fas fa-shield-alt"></i> Armed Forces</a>
+          <a href="civil-restoration.html" data-page="civil-rd" aria-label="Civil Employee Restoration Date"><i class="fas fa-user-tie"></i> Civil Employee</a>
+          <a href="armed-restoration.html" data-page="armed-rd" aria-label="Armed Forces Restoration Date"><i class="fas fa-shield-alt"></i> Armed Forces</a>
         </div>
       </div>
       <div class="sidebar-dropdown" id="dropdown5">
@@ -360,8 +486,8 @@
           <i class="fas fa-chevron-down arrow" aria-hidden="true"></i>
         </div>
         <div class="sidebar-submenu" role="region" aria-label="Pension Increase options">
-          <a href="#" aria-label="Civil Employee Pension Increase"><i class="fas fa-user-tie"></i> Civil Employee</a>
-          <a href="#" aria-label="Armed Forces Pension Increase"><i class="fas fa-shield-alt"></i> Armed Forces</a>
+          <a href="civil-pension-increase.html" data-page="civil-pi" aria-label="Civil Employee Pension Increase"><i class="fas fa-user-tie"></i> Civil Employee</a>
+          <a href="armed-pension-increase.html" data-page="armed-pi" aria-label="Armed Forces Pension Increase"><i class="fas fa-shield-alt"></i> Armed Forces</a>
         </div>
       </div>
     </nav>
@@ -392,257 +518,258 @@
 
   <!-- Main Content -->
   <main class="main-content" id="mainContent" role="main">
-
-    <!-- Our Services Section -->
-    <section class="services-expandable-card" id="servicesCard" aria-labelledby="servicesHeading">
-      <div class="services-card-header">
-        <div style="text-align:center;"><span class="services-label-btn"><i class="fas fa-star" aria-hidden="true"></i> Our Services</span></div>
-        <h2 id="servicesHeading" class="services-main-heading">Professional Pension & Pay Verification Services for <span class="services-highlight">Government Employees in Pakistan</span></h2>
-        <p class="services-desc">We provide a complete set of professional online verification and retirement management tools designed for <strong>Government Civil Employees</strong>, <strong>Armed Forces Personnel</strong>, pensioners, finance departments, audit offices, and administrative institutions throughout Pakistan.</p>
-        <p class="services-desc">The platform combines multiple salary and retirement-related utilities into one centralized system to help users manage service-related calculations with convenience and accuracy.</p>
-        <div class="core-services-header-row">
-          <h4>Our Core Services Include:</h4>
-          <button class="services-expand-btn" onclick="toggleServicesCard()" aria-label="Expand services list"><span>Expand List</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
-        </div>
-      </div>
-      <div class="services-expandable-content">
-        <div class="services-content-inner">
-          <div class="services-list">
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Online Pay Verification</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Online Pay Fixation</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension Calculator</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension Commutation Calculation</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Restoration Date Finder</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension Increase Verification</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Service Length Verification</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement Benefit Estimation</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Salary Revision Tracking</div>
-            <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable Emoluments Calculation</div>
+    <!-- Dynamic content will be loaded here -->
+    <div id="dynamic-content">
+      <!-- Our Services Section -->
+      <section class="services-expandable-card" id="servicesCard" aria-labelledby="servicesHeading">
+        <div class="services-card-header">
+          <div style="text-align:center;"><span class="services-label-btn"><i class="fas fa-star" aria-hidden="true"></i> Our Services</span></div>
+          <h2 id="servicesHeading" class="services-main-heading">Professional Pension & Pay Verification Services for <span class="services-highlight">Government Employees in Pakistan</span></h2>
+          <p class="services-desc">We provide a complete set of professional online verification and retirement management tools designed for <strong>Government Civil Employees</strong>, <strong>Armed Forces Personnel</strong>, pensioners, finance departments, audit offices, and administrative institutions throughout Pakistan.</p>
+          <p class="services-desc">The platform combines multiple salary and retirement-related utilities into one centralized system to help users manage service-related calculations with convenience and accuracy.</p>
+          <div class="core-services-header-row">
+            <h4>Our Core Services Include:</h4>
+            <button class="services-expand-btn" onclick="toggleServicesCard()" aria-label="Expand services list"><span>Expand List</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
           </div>
-          <p class="services-description-second">The portal is especially beneficial for employees preparing retirement cases, departmental audits, pension documentation, service verification records, and revised pay calculations.</p>
         </div>
-      </div>
-    </section>
+        <div class="services-expandable-content">
+          <div class="services-content-inner">
+            <div class="services-list">
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Online Pay Verification</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Online Pay Fixation</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension Calculator</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension Commutation Calculation</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Restoration Date Finder</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension Increase Verification</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Service Length Verification</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement Benefit Estimation</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Salary Revision Tracking</div>
+              <div class="services-list-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable Emoluments Calculation</div>
+            </div>
+            <p class="services-description-second">The portal is especially beneficial for employees preparing retirement cases, departmental audits, pension documentation, service verification records, and revised pay calculations.</p>
+          </div>
+        </div>
+      </section>
 
-    <!-- Card 1: Online Pay Verification -->
-    <section class="expandable-card" id="pvCard" aria-labelledby="pvHeading">
-      <div class="card-header">
-        <h3 id="pvHeading" class="card-main-heading">Online <span class="golden-text">Pay Verification</span></h3>
-        <div class="card-buttons-row">
-          <a href="#" class="btn-civil" onclick="event.stopPropagation();" aria-label="Civil Employee Pay Verification"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
-          <a href="Online Armed Forces Pay Verification.html" class="btn-armed" onclick="event.stopPropagation();" aria-label="Armed Forces Pay Verification"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
+      <!-- Card 1: Online Pay Verification -->
+      <section class="expandable-card" id="pvCard" aria-labelledby="pvHeading">
+        <div class="card-header">
+          <h3 id="pvHeading" class="card-main-heading">Online <span class="golden-text">Pay Verification</span></h3>
+          <div class="card-buttons-row">
+            <a href="civil-pay-verification.html" class="btn-civil dynamic-link" onclick="event.stopPropagation();" aria-label="Civil Employee Pay Verification"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
+            <a href="Online Armed Forces Pay Verification.html" class="btn-armed dynamic-link" onclick="event.stopPropagation();" aria-label="Armed Forces Pay Verification"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
+          </div>
+          <div class="card-expand-row">
+            <span class="card-expand-text">Explore the salary and basic pay verification features for Government Employees.</span>
+            <button class="card-expand-btn" onclick="toggleCard('pvCard')" aria-label="Expand pay verification details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          </div>
         </div>
-        <div class="card-expand-row">
-          <span class="card-expand-text">Explore the salary and basic pay verification features for Government Employees.</span>
-          <button class="card-expand-btn" onclick="toggleCard('pvCard')" aria-label="Expand pay verification details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+        <div class="card-expandable-content"><div class="card-content-inner">
+          <h3 class="card-expand-heading">Verify Complete Salary & Service Records Online</h3>
+          <p>The Online Pay Verification system helps users review and verify salary progression from the date of appointment to retirement date or current service date. The platform simplifies complex service calculations and helps employees understand their complete pay history according to applicable government rules and pay scales.</p>
+          <h4><i class="fas fa-list-check" aria-hidden="true"></i> Users Can Verify:</h4>
+          <div class="card-checklist">
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Basic pay progression</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Annual increments</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Revised pay scales</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Promotion-based salary changes</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable emoluments</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Service duration</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement-related salary details</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Qualifying service calculations</div>
+          </div>
+          <p>The verification system is suitable for both <strong>Civil and Armed Forces employees</strong> and helps reduce errors commonly found in manual salary calculations and departmental records.</p>
+          <h4><i class="fas fa-star" aria-hidden="true"></i> This Feature Is Particularly Useful For:</h4>
+          <div class="card-checklist">
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement preparation</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension case verification</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Audit and accounts review</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Service record management</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Salary discrepancy analysis</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Financial planning</div>
+          </div>
+        </div></div>
+      </section>
+
+      <!-- Card 2: Pay Fixation -->
+      <section class="expandable-card" id="pfCard" aria-labelledby="pfHeading">
+        <div class="card-header">
+          <h3 id="pfHeading" class="card-main-heading">Pay <span class="golden-text">Fixation</span></h3>
+          <div class="card-buttons-row">
+            <a href="civil-pay-fixation.html" class="btn-civil dynamic-link" onclick="event.stopPropagation();" aria-label="Civil Employee Pay Fixation"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
+            <a href="armed-pay-fixation.html" class="btn-armed dynamic-link" onclick="event.stopPropagation();" aria-label="Armed Forces Pay Fixation"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
+          </div>
+          <div class="card-expand-row">
+            <span class="card-expand-text">Explore Pay Fixation on Promotion, Upgradation and Revision of salary for Government Employees.</span>
+            <button class="card-expand-btn" onclick="toggleCard('pfCard')" aria-label="Expand pay fixation details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          </div>
         </div>
-      </div>
-      <div class="card-expandable-content"><div class="card-content-inner">
-        <h3 class="card-expand-heading">Verify Complete Salary & Service Records Online</h3>
-        <p>The Online Pay Verification system helps users review and verify salary progression from the date of appointment to retirement date or current service date. The platform simplifies complex service calculations and helps employees understand their complete pay history according to applicable government rules and pay scales.</p>
-        <h4><i class="fas fa-list-check" aria-hidden="true"></i> Users Can Verify:</h4>
+        <div class="card-expandable-content"><div class="card-content-inner">
+          <h3 class="card-expand-heading">Accurate Salary Fixation on Promotion, Upgradation & Pay Revision</h3>
+          <p>Government salary structures regularly change due to <strong>promotions, upgradations, revised pay scales, and departmental restructuring</strong>. Our Online Pay Fixation system helps employees estimate revised salary placement accurately according to applicable rules and service structures.</p>
+          <h4><i class="fas fa-list-check" aria-hidden="true"></i> The Platform Allows Users to Calculate:</h4>
+          <div class="card-checklist">
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Promotion pay fixation</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Upgraded scale adjustments</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Revised basic pay</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Increment impact</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Salary revision differences</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pay scale conversions</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable salary updates</div>
+          </div>
+          <p>The system is designed to help users understand how revised salary structures affect <strong>future retirement benefits and pension calculations</strong>.</p>
+          <p>Both <strong>serving and retired employees</strong> can use this tool to review salary adjustments resulting from official pay revisions and service-related changes.</p>
+        </div></div>
+      </section>
+
+      <!-- Card 3: Online Pension Calculator -->
+      <section class="expandable-card" id="pcCard" aria-labelledby="pcHeading">
+        <div class="card-header">
+          <h3 id="pcHeading" class="card-main-heading">Online <span class="golden-text">Pension Calculator</span></h3>
+          <div class="card-buttons-row">
+            <a href="civil-pension-calculator.html" class="btn-civil dynamic-link" onclick="event.stopPropagation();" aria-label="Civil Employee Pension Calculator"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
+            <a href="armed-pension-calculator.html" class="btn-armed dynamic-link" onclick="event.stopPropagation();" aria-label="Armed Forces Pension Calculator"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
+          </div>
+          <div class="card-expand-row">
+            <span class="card-expand-text">Explore the exact commutation amount and monthly pension features for Government Employees.</span>
+            <button class="card-expand-btn" onclick="toggleCard('pcCard')" aria-label="Expand pension calculator details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="card-expandable-content"><div class="card-content-inner">
+          <h3 class="card-expand-heading">Calculate Pension, Commutation & Retirement Benefits Instantly</h3>
+          <p>The Online Pension Calculator helps employees estimate retirement benefits using service details, salary information, and pension rules applicable in Pakistan.</p>
+          <h4><i class="fas fa-list-check" aria-hidden="true"></i> The Platform Supports Calculations For:</h4>
+          <div class="card-checklist">
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Gross pension</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Net pension</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Monthly pension estimates</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension commutation</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Qualifying service</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement benefits</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable salary calculations</div>
+            <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Estimated post-retirement income</div>
+          </div>
+          <p>The calculator is designed for <strong>Government Civil Employees</strong> as well as <strong>Armed Forces Personnel</strong> who want accurate pension-related estimates through a simple and professional online system.</p>
+          <p>This feature helps users prepare retirement plans, review pension projections, and understand expected retirement benefits before official processing.</p>
+        </div></div>
+      </section>
+
+      <!-- Card 4: Restoration Date Finder -->
+      <section class="expandable-card" id="rdCard" aria-labelledby="rdHeading">
+        <div class="card-header">
+          <h3 id="rdHeading" class="card-main-heading">Restoration <span class="golden-text">Date Finder</span></h3>
+          <div class="card-buttons-row">
+            <a href="civil-restoration.html" class="btn-civil dynamic-link" onclick="event.stopPropagation();" aria-label="Civil Employee Restoration Date Finder"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
+            <a href="armed-restoration.html" class="btn-armed dynamic-link" onclick="event.stopPropagation();" aria-label="Armed Forces Restoration Date Finder"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
+          </div>
+          <div class="card-expand-row">
+            <span class="card-expand-text">Explore the exact date of restoration of commuted portion of pension feature for Government Employees.</span>
+            <button class="card-expand-btn" onclick="toggleCard('rdCard')" aria-label="Expand restoration date details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="card-expandable-content"><div class="card-content-inner">
+          <h3 class="card-expand-heading">Find Exact Restoration Date of Commuted Pension</h3>
+          <p>The Restoration Date Finder is developed to help pensioners determine the exact restoration date of the commuted portion of pension automatically and accurately.</p>
+          <h4><i class="fas fa-list-check" aria-hidden="true"></i> The System Assists Users In:</h4>
+          <div class="card-single-checklist">
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Restoration schedule verification</li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Commutation timeline tracking</li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Pension restoration calculations</li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement benefit planning</li>
+          </div>
+          <p>This feature eliminates manual date calculations and provides quick access to important pension restoration information for retired employees.</p>
+        </div></div>
+      </section>
+
+      <!-- Card 5: Pension Increase Verification -->
+      <section class="expandable-card" id="piCard" aria-labelledby="piHeading">
+        <div class="card-header">
+          <h3 id="piHeading" class="card-main-heading">Pension <span class="golden-text">Increase Verification</span></h3>
+          <div class="card-buttons-row">
+            <a href="civil-pension-increase.html" class="btn-civil dynamic-link" onclick="event.stopPropagation();" aria-label="Civil Employee Pension Increase Verification"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
+            <a href="armed-pension-increase.html" class="btn-armed dynamic-link" onclick="event.stopPropagation();" aria-label="Armed Forces Pension Increase Verification"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
+          </div>
+          <div class="card-expand-row">
+            <span class="card-expand-text">Explore the exact pension details with time to time pension increases announced by the government.</span>
+            <button class="card-expand-btn" onclick="toggleCard('piCard')" aria-label="Expand pension increase details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="card-expandable-content"><div class="card-content-inner">
+          <h3 class="card-expand-heading">Estimate Revised Pension After Government Increases</h3>
+          <p>Government pension increases announced through annual budgets and official notifications can significantly affect retirement income. Our Pension Increase Verification tool helps pensioners estimate updated pension amounts according to applicable increase percentages and revised pension structures.</p>
+          <h4><i class="fas fa-list-check" aria-hidden="true"></i> Users Can Review:</h4>
+          <div class="card-single-checklist">
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Annual pension increase impact</li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Updated monthly pension</li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Revised pension estimates</li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Increase history calculations</li>
+            <li><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement income adjustments</li>
+          </div>
+          <p>The feature helps pensioners understand the financial impact of official pension increases more clearly and accurately.</p>
+        </div></div>
+      </section>
+
+      <!-- Why Use This Platform -->
+      <section class="info-section" aria-labelledby="whyHeading">
+        <h2 id="whyHeading"><i class="fas fa-question-circle" aria-hidden="true"></i> Why Use This Platform?</h2>
+        <h4 style="font-size:1.2rem;font-weight:700;color:var(--primary-dark);margin-bottom:1rem;">A Reliable Digital Solution for Government Employees & Pensioners</h4>
+        <p>Our platform is developed with a strong focus on <strong>accuracy, accessibility, and user convenience</strong>. The system combines professional verification tools with a clean and responsive interface to provide a smooth experience across all devices.</p>
+        <h4 style="font-weight:700;color:var(--primary-dark);margin-top:1.5rem;">Key Advantages</h4>
+        <div class="benefits-grid">
+          <div class="benefit-box"><i class="fas fa-check-circle" aria-hidden="true"></i><strong>Accurate Government-Based Calculations</strong></div>
+          <div class="benefit-box"><i class="fas fa-tools" aria-hidden="true"></i><strong>Professional Verification Tools</strong></div>
+          <div class="benefit-box"><i class="fas fa-mobile-alt" aria-hidden="true"></i><strong>Responsive Mobile-Friendly Design</strong></div>
+          <div class="benefit-box"><i class="fas fa-shield-alt" aria-hidden="true"></i><strong>Fast & Secure Platform</strong></div>
+          <div class="benefit-box"><i class="fas fa-th-large" aria-hidden="true"></i><strong>User-Friendly Dashboard</strong></div>
+          <div class="benefit-box"><i class="fas fa-piggy-bank" aria-hidden="true"></i><strong>Retirement & Pension Support</strong></div>
+          <div class="benefit-box"><i class="fas fa-search" aria-hidden="true"></i><strong>Simplified Salary Verification</strong></div>
+          <div class="benefit-box"><i class="fas fa-clock" aria-hidden="true"></i><strong>Time-Saving Online Tools</strong></div>
+          <div class="benefit-box"><i class="fas fa-calculator" aria-hidden="true"></i><strong>Centralized Financial Calculations</strong></div>
+          <div class="benefit-box"><i class="fas fa-globe" aria-hidden="true"></i><strong>Free Online Access</strong></div>
+        </div>
+        <p>The portal is continuously updated according to revised government pay scales, pension structures, and retirement policies to ensure reliable calculations and improved user experience.</p>
+      </section>
+
+      <!-- Designed for Accessibility -->
+      <section class="info-section" aria-labelledby="accessibilityHeading">
+        <h2 id="accessibilityHeading"><i class="fas fa-universal-access" aria-hidden="true"></i> Designed for Accessibility & Accuracy</h2>
+        <p>The platform is developed using modern web technologies and performance optimization techniques to ensure fast loading speed, responsive layouts, and easy accessibility for users across Pakistan.</p>
+        <h4 style="font-weight:700;color:var(--primary-dark);margin-top:1.2rem;">The Website Focuses On:</h4>
         <div class="card-checklist">
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Basic pay progression</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Annual increments</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Revised pay scales</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Promotion-based salary changes</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable emoluments</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Service duration</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement-related salary details</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Qualifying service calculations</div>
+          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Responsive mobile experience</div>
+          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Clean navigation structure</div>
+          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Accessibility-friendly interface</div>
+          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Optimized page speed</div>
+          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Secure browsing environment</div>
+          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> User-focused content structure</div>
+          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Simplified calculation process</div>
         </div>
-        <p>The verification system is suitable for both <strong>Civil and Armed Forces employees</strong> and helps reduce errors commonly found in manual salary calculations and departmental records.</p>
-        <h4><i class="fas fa-star" aria-hidden="true"></i> This Feature Is Particularly Useful For:</h4>
-        <div class="card-checklist">
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement preparation</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension case verification</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Audit and accounts review</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Service record management</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Salary discrepancy analysis</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Financial planning</div>
-        </div>
-      </div></div>
-    </section>
+        <p style="margin-top:1rem;">Our goal is to provide a professional and accessible digital platform that helps employees and pensioners manage salary and retirement-related information more efficiently.</p>
+      </section>
 
-    <!-- Card 2: Pay Fixation -->
-    <section class="expandable-card" id="pfCard" aria-labelledby="pfHeading">
-      <div class="card-header">
-        <h3 id="pfHeading" class="card-main-heading">Pay <span class="golden-text">Fixation</span></h3>
-        <div class="card-buttons-row">
-          <a href="#" class="btn-civil" onclick="event.stopPropagation();" aria-label="Civil Employee Pay Fixation"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
-          <a href="#" class="btn-armed" onclick="event.stopPropagation();" aria-label="Armed Forces Pay Fixation"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
-        </div>
-        <div class="card-expand-row">
-          <span class="card-expand-text">Explore Pay Fixation on Promotion, Upgradation and Revision of salary for Government Employees.</span>
-          <button class="card-expand-btn" onclick="toggleCard('pfCard')" aria-label="Expand pay fixation details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
-        </div>
-      </div>
-      <div class="card-expandable-content"><div class="card-content-inner">
-        <h3 class="card-expand-heading">Accurate Salary Fixation on Promotion, Upgradation & Pay Revision</h3>
-        <p>Government salary structures regularly change due to <strong>promotions, upgradations, revised pay scales, and departmental restructuring</strong>. Our Online Pay Fixation system helps employees estimate revised salary placement accurately according to applicable rules and service structures.</p>
-        <h4><i class="fas fa-list-check" aria-hidden="true"></i> The Platform Allows Users to Calculate:</h4>
-        <div class="card-checklist">
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Promotion pay fixation</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Upgraded scale adjustments</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Revised basic pay</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Increment impact</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Salary revision differences</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pay scale conversions</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable salary updates</div>
-        </div>
-        <p>The system is designed to help users understand how revised salary structures affect <strong>future retirement benefits and pension calculations</strong>.</p>
-        <p>Both <strong>serving and retired employees</strong> can use this tool to review salary adjustments resulting from official pay revisions and service-related changes.</p>
-      </div></div>
-    </section>
+      <!-- FAQ -->
+      <section class="info-section" aria-labelledby="faqHeading">
+        <h2 id="faqHeading"><i class="fas fa-comments" aria-hidden="true"></i> Frequently Asked Questions</h2>
+        <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Who can use this platform?</h4><p>Serving employees, pensioners, retired government staff, finance departments, audit offices, and administrative institutions can use the platform.</p></div>
+        <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Does the system support both Civil and Armed Forces employees?</h4><p>Yes, the platform supports salary verification, pension calculations, and retirement tools for both Civil and Armed Forces personnel.</p></div>
+        <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Can users calculate pension and restoration dates online?</h4><p>Yes, users can estimate pension, commutation details, pension increases, and restoration dates online.</p></div>
+        <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Is the website mobile friendly?</h4><p>Yes, the platform is fully responsive and optimized for mobile phones, tablets, laptops, and desktop devices.</p></div>
+        <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Are the calculations officially verified?</h4><p>The platform provides estimated calculations according to applicable pay structures and pension rules; however, users should verify official figures through relevant departments.</p></div>
+      </section>
 
-    <!-- Card 3: Online Pension Calculator -->
-    <section class="expandable-card" id="pcCard" aria-labelledby="pcHeading">
-      <div class="card-header">
-        <h3 id="pcHeading" class="card-main-heading">Online <span class="golden-text">Pension Calculator</span></h3>
-        <div class="card-buttons-row">
-          <a href="#" class="btn-civil" onclick="event.stopPropagation();" aria-label="Civil Employee Pension Calculator"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
-          <a href="#" class="btn-armed" onclick="event.stopPropagation();" aria-label="Armed Forces Pension Calculator"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
+      <!-- Disclaimer -->
+      <section class="disclaimer-card" aria-labelledby="disclaimerHeading">
+        <div class="disclaimer-header">
+          <div class="disclaimer-icon-wrapper"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
+          <h2 id="disclaimerHeading">Important Disclaimer</h2>
         </div>
-        <div class="card-expand-row">
-          <span class="card-expand-text">Explore the exact commutation amount and monthly pension features for Government Employees.</span>
-          <button class="card-expand-btn" onclick="toggleCard('pcCard')" aria-label="Expand pension calculator details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+        <div class="disclaimer-body">
+          <p>This website is an <strong>independent informational and utility platform</strong> developed for educational and assistance purposes only. It is not officially affiliated with any Government department, military institution, pension office, or administrative authority in Pakistan.</p>
+          <div class="disclaimer-accent-line" aria-hidden="true"><span></span><i class="fas fa-circle"></i><span></span></div>
+          <p>Users are advised to <strong>verify official salary records, pension calculations, retirement details, and financial information</strong> through relevant government departments before making final decisions.</p>
         </div>
-      </div>
-      <div class="card-expandable-content"><div class="card-content-inner">
-        <h3 class="card-expand-heading">Calculate Pension, Commutation & Retirement Benefits Instantly</h3>
-        <p>The Online Pension Calculator helps employees estimate retirement benefits using service details, salary information, and pension rules applicable in Pakistan.</p>
-        <h4><i class="fas fa-list-check" aria-hidden="true"></i> The Platform Supports Calculations For:</h4>
-        <div class="card-checklist">
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Gross pension</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Net pension</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Monthly pension estimates</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pension commutation</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Qualifying service</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement benefits</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Pensionable salary calculations</div>
-          <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Estimated post-retirement income</div>
-        </div>
-        <p>The calculator is designed for <strong>Government Civil Employees</strong> as well as <strong>Armed Forces Personnel</strong> who want accurate pension-related estimates through a simple and professional online system.</p>
-        <p>This feature helps users prepare retirement plans, review pension projections, and understand expected retirement benefits before official processing.</p>
-      </div></div>
-    </section>
-
-    <!-- Card 4: Restoration Date Finder -->
-    <section class="expandable-card" id="rdCard" aria-labelledby="rdHeading">
-      <div class="card-header">
-        <h3 id="rdHeading" class="card-main-heading">Restoration <span class="golden-text">Date Finder</span></h3>
-        <div class="card-buttons-row">
-          <a href="#" class="btn-civil" onclick="event.stopPropagation();" aria-label="Civil Employee Restoration Date Finder"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
-          <a href="#" class="btn-armed" onclick="event.stopPropagation();" aria-label="Armed Forces Restoration Date Finder"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
-        </div>
-        <div class="card-expand-row">
-          <span class="card-expand-text">Explore the exact date of restoration of commuted portion of pension feature for Government Employees.</span>
-          <button class="card-expand-btn" onclick="toggleCard('rdCard')" aria-label="Expand restoration date details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
-        </div>
-      </div>
-      <div class="card-expandable-content"><div class="card-content-inner">
-        <h3 class="card-expand-heading">Find Exact Restoration Date of Commuted Pension</h3>
-        <p>The Restoration Date Finder is developed to help pensioners determine the exact restoration date of the commuted portion of pension automatically and accurately.</p>
-        <h4><i class="fas fa-list-check" aria-hidden="true"></i> The System Assists Users In:</h4>
-        <div class="card-single-checklist">
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Restoration schedule verification</li>
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Commutation timeline tracking</li>
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Pension restoration calculations</li>
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement benefit planning</li>
-        </div>
-        <p>This feature eliminates manual date calculations and provides quick access to important pension restoration information for retired employees.</p>
-      </div></div>
-    </section>
-
-    <!-- Card 5: Pension Increase Verification -->
-    <section class="expandable-card" id="piCard" aria-labelledby="piHeading">
-      <div class="card-header">
-        <h3 id="piHeading" class="card-main-heading">Pension <span class="golden-text">Increase Verification</span></h3>
-        <div class="card-buttons-row">
-          <a href="#" class="btn-civil" onclick="event.stopPropagation();" aria-label="Civil Employee Pension Increase Verification"><i class="fas fa-user-tie" aria-hidden="true"></i> Civil Employee</a>
-          <a href="#" class="btn-armed" onclick="event.stopPropagation();" aria-label="Armed Forces Pension Increase Verification"><i class="fas fa-shield-alt" aria-hidden="true"></i> Armed Forces</a>
-        </div>
-        <div class="card-expand-row">
-          <span class="card-expand-text">Explore the exact pension details with time to time pension increases announced by the government.</span>
-          <button class="card-expand-btn" onclick="toggleCard('piCard')" aria-label="Expand pension increase details"><span>Expand Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
-        </div>
-      </div>
-      <div class="card-expandable-content"><div class="card-content-inner">
-        <h3 class="card-expand-heading">Estimate Revised Pension After Government Increases</h3>
-        <p>Government pension increases announced through annual budgets and official notifications can significantly affect retirement income. Our Pension Increase Verification tool helps pensioners estimate updated pension amounts according to applicable increase percentages and revised pension structures.</p>
-        <h4><i class="fas fa-list-check" aria-hidden="true"></i> Users Can Review:</h4>
-        <div class="card-single-checklist">
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Annual pension increase impact</li>
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Updated monthly pension</li>
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Revised pension estimates</li>
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Increase history calculations</li>
-          <li><i class="fas fa-check-circle" aria-hidden="true"></i> Retirement income adjustments</li>
-        </div>
-        <p>The feature helps pensioners understand the financial impact of official pension increases more clearly and accurately.</p>
-      </div></div>
-    </section>
-
-    <!-- Why Use This Platform -->
-    <section class="info-section" aria-labelledby="whyHeading">
-      <h2 id="whyHeading"><i class="fas fa-question-circle" aria-hidden="true"></i> Why Use This Platform?</h2>
-      <h4 style="font-size:1.2rem;font-weight:700;color:var(--primary-dark);margin-bottom:1rem;">A Reliable Digital Solution for Government Employees & Pensioners</h4>
-      <p>Our platform is developed with a strong focus on <strong>accuracy, accessibility, and user convenience</strong>. The system combines professional verification tools with a clean and responsive interface to provide a smooth experience across all devices.</p>
-      <h4 style="font-weight:700;color:var(--primary-dark);margin-top:1.5rem;">Key Advantages</h4>
-      <div class="benefits-grid">
-        <div class="benefit-box"><i class="fas fa-check-circle" aria-hidden="true"></i><strong>Accurate Government-Based Calculations</strong></div>
-        <div class="benefit-box"><i class="fas fa-tools" aria-hidden="true"></i><strong>Professional Verification Tools</strong></div>
-        <div class="benefit-box"><i class="fas fa-mobile-alt" aria-hidden="true"></i><strong>Responsive Mobile-Friendly Design</strong></div>
-        <div class="benefit-box"><i class="fas fa-shield-alt" aria-hidden="true"></i><strong>Fast & Secure Platform</strong></div>
-        <div class="benefit-box"><i class="fas fa-th-large" aria-hidden="true"></i><strong>User-Friendly Dashboard</strong></div>
-        <div class="benefit-box"><i class="fas fa-piggy-bank" aria-hidden="true"></i><strong>Retirement & Pension Support</strong></div>
-        <div class="benefit-box"><i class="fas fa-search" aria-hidden="true"></i><strong>Simplified Salary Verification</strong></div>
-        <div class="benefit-box"><i class="fas fa-clock" aria-hidden="true"></i><strong>Time-Saving Online Tools</strong></div>
-        <div class="benefit-box"><i class="fas fa-calculator" aria-hidden="true"></i><strong>Centralized Financial Calculations</strong></div>
-        <div class="benefit-box"><i class="fas fa-globe" aria-hidden="true"></i><strong>Free Online Access</strong></div>
-      </div>
-      <p>The portal is continuously updated according to revised government pay scales, pension structures, and retirement policies to ensure reliable calculations and improved user experience.</p>
-    </section>
-
-    <!-- Designed for Accessibility -->
-    <section class="info-section" aria-labelledby="accessibilityHeading">
-      <h2 id="accessibilityHeading"><i class="fas fa-universal-access" aria-hidden="true"></i> Designed for Accessibility & Accuracy</h2>
-      <p>The platform is developed using modern web technologies and performance optimization techniques to ensure fast loading speed, responsive layouts, and easy accessibility for users across Pakistan.</p>
-      <h4 style="font-weight:700;color:var(--primary-dark);margin-top:1.2rem;">The Website Focuses On:</h4>
-      <div class="card-checklist">
-        <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Responsive mobile experience</div>
-        <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Clean navigation structure</div>
-        <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Accessibility-friendly interface</div>
-        <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Optimized page speed</div>
-        <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Secure browsing environment</div>
-        <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> User-focused content structure</div>
-        <div class="card-checklist-item"><i class="fas fa-check-circle" aria-hidden="true"></i> Simplified calculation process</div>
-      </div>
-      <p style="margin-top:1rem;">Our goal is to provide a professional and accessible digital platform that helps employees and pensioners manage salary and retirement-related information more efficiently.</p>
-    </section>
-
-    <!-- FAQ -->
-    <section class="info-section" aria-labelledby="faqHeading">
-      <h2 id="faqHeading"><i class="fas fa-comments" aria-hidden="true"></i> Frequently Asked Questions</h2>
-      <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Who can use this platform?</h4><p>Serving employees, pensioners, retired government staff, finance departments, audit offices, and administrative institutions can use the platform.</p></div>
-      <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Does the system support both Civil and Armed Forces employees?</h4><p>Yes, the platform supports salary verification, pension calculations, and retirement tools for both Civil and Armed Forces personnel.</p></div>
-      <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Can users calculate pension and restoration dates online?</h4><p>Yes, users can estimate pension, commutation details, pension increases, and restoration dates online.</p></div>
-      <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Is the website mobile friendly?</h4><p>Yes, the platform is fully responsive and optimized for mobile phones, tablets, laptops, and desktop devices.</p></div>
-      <div class="faq-item"><h4><i class="fas fa-question-circle" aria-hidden="true"></i> Are the calculations officially verified?</h4><p>The platform provides estimated calculations according to applicable pay structures and pension rules; however, users should verify official figures through relevant departments.</p></div>
-    </section>
-
-    <!-- Disclaimer -->
-    <section class="disclaimer-card" aria-labelledby="disclaimerHeading">
-      <div class="disclaimer-header">
-        <div class="disclaimer-icon-wrapper"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i></div>
-        <h2 id="disclaimerHeading">Important Disclaimer</h2>
-      </div>
-      <div class="disclaimer-body">
-        <p>This website is an <strong>independent informational and utility platform</strong> developed for educational and assistance purposes only. It is not officially affiliated with any Government department, military institution, pension office, or administrative authority in Pakistan.</p>
-        <div class="disclaimer-accent-line" aria-hidden="true"><span></span><i class="fas fa-circle"></i><span></span></div>
-        <p>Users are advised to <strong>verify official salary records, pension calculations, retirement details, and financial information</strong> through relevant government departments before making final decisions.</p>
-      </div>
-    </section>
-
+      </section>
+    </div>
   </main>
 
   <!-- Footer -->
@@ -657,14 +784,14 @@
       <div class="footer-container">
         <div class="footer-links-wrapper">
           <div class="footer-links-row">
-            <a href="#" aria-label="Home">Home</a><span class="footer-link-separator" aria-hidden="true">|</span>
-            <a href="#" aria-label="About Us">About Us</a><span class="footer-link-separator" aria-hidden="true">|</span>
-            <a href="#" aria-label="Privacy Policy">Privacy Policy</a>
+            <a href="index.html" data-page="home" aria-label="Home">Home</a><span class="footer-link-separator" aria-hidden="true">|</span>
+            <a href="about.html" data-page="about" aria-label="About Us">About Us</a><span class="footer-link-separator" aria-hidden="true">|</span>
+            <a href="privacy.html" data-page="privacy" aria-label="Privacy Policy">Privacy Policy</a>
           </div>
           <div class="footer-links-row">
-            <a href="#" aria-label="Terms of Service">Terms of Service</a><span class="footer-link-separator" aria-hidden="true">|</span>
-            <a href="#" aria-label="Contact Us">Contact Us</a><span class="footer-link-separator" aria-hidden="true">|</span>
-            <a href="#" aria-label="Disclaimer">Disclaimer</a>
+            <a href="terms.html" data-page="terms" aria-label="Terms of Service">Terms of Service</a><span class="footer-link-separator" aria-hidden="true">|</span>
+            <a href="contact.html" data-page="contact" aria-label="Contact Us">Contact Us</a><span class="footer-link-separator" aria-hidden="true">|</span>
+            <a href="disclaimer.html" data-page="disclaimer" aria-label="Disclaimer">Disclaimer</a>
           </div>
         </div>
         <div class="footer-social">
@@ -683,117 +810,254 @@
   </footer>
 
   <script>
-    // Auto-update copyright year
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    document.getElementById('sidebarYear').textContent = new Date().getFullYear();
+    (function() {
+      // Auto-update copyright year
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      document.getElementById('sidebarYear').textContent = new Date().getFullYear();
 
-    // Sidebar functionality
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    
-    function openSidebar() { 
-      sidebar.classList.add('active'); 
-      sidebarOverlay.classList.add('active'); 
-      menuBtn.classList.add('active'); 
-      menuBtn.setAttribute('aria-expanded', 'true');
-    }
-    function closeSidebar() { 
-      sidebar.classList.remove('active'); 
-      sidebarOverlay.classList.remove('active'); 
-      menuBtn.classList.remove('active'); 
-      menuBtn.setAttribute('aria-expanded', 'false');
-    }
-    
-    menuBtn.addEventListener('click', () => { 
-      if (sidebar.classList.contains('active')) closeSidebar(); 
-      else openSidebar(); 
-    });
-    sidebarOverlay.addEventListener('click', closeSidebar);
+      // DOM elements
+      const menuBtn = document.getElementById('menuBtn');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const dynamicContent = document.getElementById('dynamic-content');
+      const pageLoader = document.getElementById('page-loader');
+      const errorModal = document.getElementById('errorModal');
+      const mainContent = document.getElementById('mainContent');
 
-    function handleResponsiveSidebar() {
-      if (window.innerWidth >= 1025) { 
+      // Current page state
+      let currentPage = 'home';
+      let pageCache = {};
+
+      // ---------- SIDEBAR ----------
+      function openSidebar() { 
         sidebar.classList.add('active'); 
-        sidebarOverlay.classList.remove('active'); 
-        menuBtn.style.display = 'none'; 
-      } else { 
+        sidebarOverlay.classList.add('active'); 
+        menuBtn.classList.add('active'); 
+        menuBtn.setAttribute('aria-expanded', 'true');
+      }
+      function closeSidebar() { 
         sidebar.classList.remove('active'); 
         sidebarOverlay.classList.remove('active'); 
-        menuBtn.style.display = 'flex'; 
+        menuBtn.classList.remove('active'); 
         menuBtn.setAttribute('aria-expanded', 'false');
       }
-    }
-    handleResponsiveSidebar();
-    let resizeTimer;
-    window.addEventListener('resize', () => { 
-      clearTimeout(resizeTimer); 
-      resizeTimer = setTimeout(handleResponsiveSidebar, 100); 
-    });
-
-    // Sidebar dropdowns
-    function toggleSidebarDropdown(dropdownId) {
-      const dropdown = document.getElementById(dropdownId);
-      const toggle = dropdown.querySelector('.sidebar-dropdown-toggle');
-      const isOpen = dropdown.classList.contains('open');
       
-      document.querySelectorAll('.sidebar-dropdown').forEach(d => { 
-        if (d.id !== dropdownId) {
-          d.classList.remove('open');
-          d.querySelector('.sidebar-dropdown-toggle').setAttribute('aria-expanded', 'false');
+      menuBtn.addEventListener('click', () => { 
+        if (sidebar.classList.contains('active')) closeSidebar(); 
+        else openSidebar(); 
+      });
+      sidebarOverlay.addEventListener('click', closeSidebar);
+
+      function handleResponsiveSidebar() {
+        if (window.innerWidth >= 1025) { 
+          sidebar.classList.add('active'); 
+          sidebarOverlay.classList.remove('active'); 
+          menuBtn.style.display = 'none'; 
+        } else { 
+          sidebar.classList.remove('active'); 
+          sidebarOverlay.classList.remove('active'); 
+          menuBtn.style.display = 'flex'; 
+          menuBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+      handleResponsiveSidebar();
+      let resizeTimer;
+      window.addEventListener('resize', () => { 
+        clearTimeout(resizeTimer); 
+        resizeTimer = setTimeout(handleResponsiveSidebar, 100); 
+      });
+
+      // Sidebar dropdowns
+      window.toggleSidebarDropdown = function(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        const toggle = dropdown.querySelector('.sidebar-dropdown-toggle');
+        const isOpen = dropdown.classList.contains('open');
+        
+        document.querySelectorAll('.sidebar-dropdown').forEach(d => { 
+          if (d.id !== dropdownId) {
+            d.classList.remove('open');
+            d.querySelector('.sidebar-dropdown-toggle').setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        dropdown.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', !isOpen);
+      };
+
+      // Card expand/collapse (works on static and dynamically loaded content)
+      window.toggleCard = function(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+        card.classList.toggle('expanded');
+        const btn = card.querySelector('.card-expand-btn span');
+        if (btn) {
+          if (card.classList.contains('expanded')) { 
+            btn.textContent = 'Collapse Details'; 
+          } else { 
+            btn.textContent = 'Expand Details'; 
+          }
+        }
+      };
+
+      window.toggleServicesCard = function() {
+        const card = document.getElementById('servicesCard');
+        if (!card) return;
+        card.classList.toggle('expanded');
+        const btn = card.querySelector('.services-expand-btn span');
+        if (btn) {
+          if (card.classList.contains('expanded')) { 
+            btn.textContent = 'Collapse List'; 
+          } else { 
+            btn.textContent = 'Expand List'; 
+          }
+        }
+      };
+
+      // ---------- ERROR MODAL ----------
+      window.closeErrorModal = function() {
+        errorModal.classList.remove('active');
+        // Navigate back to home
+        navigateTo('index.html', 'home');
+      };
+
+      function showErrorModal() {
+        errorModal.classList.add('active');
+        pageLoader.classList.remove('active');
+      }
+
+      // ---------- DYNAMIC PAGE LOADING ----------
+      async function loadPage(url, pageId) {
+        // Check cache first
+        if (pageCache[pageId]) {
+          renderContent(pageCache[pageId], pageId);
+          return;
+        }
+
+        pageLoader.classList.add('active');
+        
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const html = await response.text();
+          
+          // Extract main content from fetched page (between body tags or specific container)
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          let content;
+          const fetchedMain = doc.querySelector('#dynamic-content');
+          if (fetchedMain) {
+            content = fetchedMain.innerHTML;
+          } else {
+            // Fallback: get body content
+            content = doc.body.innerHTML;
+          }
+          
+          // Cache the content
+          pageCache[pageId] = content;
+          renderContent(content, pageId);
+          
+        } catch (error) {
+          console.error('Error loading page:', error);
+          showErrorModal();
+        } finally {
+          pageLoader.classList.remove('active');
+        }
+      }
+
+      function renderContent(content, pageId) {
+        dynamicContent.innerHTML = content;
+        currentPage = pageId;
+        
+        // Update active nav items
+        updateActiveNavItems(pageId);
+        
+        // Re-attach event listeners to newly loaded dynamic links
+        attachDynamicLinkListeners();
+        
+        // Scroll to top smoothly
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Close sidebar on mobile after navigation
+        if (window.innerWidth < 1025) {
+          closeSidebar();
+        }
+      }
+
+      function updateActiveNavItems(pageId) {
+        // Remove all active classes
+        document.querySelectorAll('.sidebar-nav-item.active, .sidebar-submenu a.active').forEach(el => {
+          el.classList.remove('active');
+          el.removeAttribute('aria-current');
+        });
+        
+        // Set active based on data-page attribute
+        const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+          if (activeLink.classList.contains('sidebar-nav-item')) {
+            activeLink.setAttribute('aria-current', 'page');
+          }
+        }
+      }
+
+      function attachDynamicLinkListeners() {
+        document.querySelectorAll('.dynamic-link, a[data-page]').forEach(link => {
+          // Remove existing listener to avoid duplicates
+          link.removeEventListener('click', dynamicLinkHandler);
+          link.addEventListener('click', dynamicLinkHandler);
+        });
+      }
+
+      function dynamicLinkHandler(e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+        const pageId = this.getAttribute('data-page');
+        if (href && pageId) {
+          navigateTo(href, pageId);
+        }
+      }
+
+      function navigateTo(url, pageId) {
+        // Update browser history
+        history.pushState({ pageId, url }, '', url);
+        loadPage(url, pageId);
+      }
+
+      // Handle browser back/forward
+      window.addEventListener('popstate', (event) => {
+        if (event.state && event.state.pageId) {
+          loadPage(event.state.url, event.state.pageId);
+        } else {
+          // Default to home
+          loadPage('index.html', 'home');
         }
       });
-      
-      dropdown.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', !isOpen);
-    }
 
-    // Card expand/collapse
-    function toggleCard(cardId) {
-      const card = document.getElementById(cardId);
-      card.classList.toggle('expanded');
-      const btn = card.querySelector('.card-expand-btn span');
-      if (card.classList.contains('expanded')) { 
-        btn.textContent = 'Collapse Details'; 
-      } else { 
-        btn.textContent = 'Expand Details'; 
-      }
-    }
+      // Initial setup - attach listeners to all existing links
+      attachDynamicLinkListeners();
 
-    // Services card toggle
-    function toggleServicesCard() {
-      const card = document.getElementById('servicesCard');
-      card.classList.toggle('expanded');
-      const btn = card.querySelector('.services-expand-btn span');
-      if (card.classList.contains('expanded')) { 
-        btn.textContent = 'Collapse List'; 
-      } else { 
-        btn.textContent = 'Expand List'; 
-      }
-    }
-
-    // Keyboard accessibility
-    document.addEventListener('keydown', (e) => { 
-      if (e.key === 'Escape' && window.innerWidth < 1025) closeSidebar(); 
-    });
-
-    // Active nav item handling
-    document.querySelectorAll('.sidebar-nav-item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        if (!this.classList.contains('sidebar-dropdown-toggle')) {
-          document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
-          this.classList.add('active');
-        }
+      // Keyboard accessibility
+      document.addEventListener('keydown', (e) => { 
+        if (e.key === 'Escape' && window.innerWidth < 1025) closeSidebar(); 
       });
-    });
 
-    // Performance: Lazy load non-critical resources
-    if ('loading' in HTMLImageElement.prototype) {
-      const images = document.querySelectorAll('img[loading="lazy"]');
-      images.forEach(img => { img.src = img.dataset.src; });
-    }
+      // Active nav item handling for static items
+      document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          if (!this.classList.contains('sidebar-dropdown-toggle')) {
+            document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+          }
+        });
+      });
 
-    console.log('✅ SEO-Optimized Platform Initialized');
-    console.log('📋 Government Employees Pay & Pension Verification');
+      console.log('✅ SEO-Optimized Platform Initialized with Dynamic Page Loading');
+      console.log('📋 Government Employees Pay & Pension Verification');
+      console.log('🔄 SPA-like navigation with error handling ready');
+    })();
   </script>
 </body>
 </html>
