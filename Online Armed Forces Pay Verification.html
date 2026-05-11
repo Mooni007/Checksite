@@ -18,11 +18,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
-/* These styles are scoped to work within the landing page */
-.embedded-content {
+/* Reset and scoped styles for embedded content */
+.af-embedded-wrapper {
+  all: initial;
+  display: block;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: #1a2e1a;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0;
+  padding: 20px 15px;
+  box-sizing: border-box;
+}
+
+.af-embedded-wrapper *,
+.af-embedded-wrapper *::before,
+.af-embedded-wrapper *::after {
+  box-sizing: border-box;
 }
 
 .af-main-card {
@@ -33,9 +45,6 @@
   border: 2.5px solid rgba(212, 168, 67, 0.4);
   position: relative;
   overflow: hidden;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  color: #1a2e1a;
-  line-height: 1.6;
 }
 
 .af-main-card::before {
@@ -63,7 +72,6 @@
 }
 
 .af-main-heading h2 {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   font-size: clamp(16px, 3.5vw, 26px);
   font-weight: 900;
   text-transform: uppercase;
@@ -140,7 +148,7 @@
   color: #ffffff;
   background: linear-gradient(135deg, #0a2e1f 0%, #0d3b27 50%, #0f402d 100%);
   border-right: 1.5px solid rgba(212, 168, 67, 0.3);
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -229,7 +237,7 @@
   font-size: clamp(8px, 0.9vw, 11px);
   font-weight: 700;
   cursor: pointer;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   transition: all 0.3s ease;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background: linear-gradient(180deg, #0a2e1f 0%, #0d3b27 40%, #0f402d 100%);
@@ -321,7 +329,7 @@ table.af-pay-table thead th {
   font-size: clamp(7px, 0.7vw, 9px);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   border: 1px solid #ddd;
 }
 
@@ -361,36 +369,97 @@ table.af-pay-table tbody tr:hover td {
   text-align: center;
   padding: 11px;
   font-size: clamp(9px, 0.9vw, 11px);
-  background: rgba(198, 40, 40, .06);
-  border: 1px solid rgba(198, 40, 40, .25);
+  background: rgba(198, 40, 40, 0.06);
+  border: 1px solid rgba(198, 40, 40, 0.25);
   margin: 12px 0;
   border-radius: 20px;
 }
 
 .af-hidden { display: none !important; }
 
+/* Mobile responsive styles */
 @media (max-width: 768px) {
-  .embedded-content { padding: 4px 2px; }
-  .af-main-card { padding: 12px 8px; }
-  .af-form-row { flex-direction: column; border-radius: 20px; }
-  .af-form-label { width: 100%; border-right: none; border-bottom: 1px solid rgba(212, 168, 67, 0.2); padding: 9px 12px; min-width: auto; border-radius: 20px 20px 0 0; font-size: 11px; }
-  .af-form-row input, .af-form-row select { padding: 10px 14px; font-size: 13px; border-radius: 0 0 20px 20px; }
-  .af-btn-calculate { padding: 10px 30px; font-size: 11px; }
-  table.af-pay-table { min-width: 560px; font-size: 8px; }
+  .af-embedded-wrapper {
+    padding: 10px 8px;
+  }
+  
+  .af-main-card { 
+    padding: 12px 8px; 
+  }
+  
+  .af-form-row { 
+    flex-direction: column; 
+    border-radius: 20px; 
+  }
+  
+  .af-form-label { 
+    width: 100%; 
+    border-right: none; 
+    border-bottom: 1px solid rgba(212, 168, 67, 0.2); 
+    padding: 9px 12px; 
+    min-width: auto; 
+    border-radius: 20px 20px 0 0; 
+    font-size: 11px; 
+  }
+  
+  .af-form-row input, 
+  .af-form-row select { 
+    padding: 10px 14px; 
+    font-size: 13px; 
+    border-radius: 0 0 20px 20px; 
+  }
+  
+  .af-btn-calculate { 
+    padding: 10px 30px; 
+    font-size: 11px; 
+  }
+  
+  table.af-pay-table { 
+    min-width: 560px; 
+    font-size: 8px; 
+  }
 }
 
 @media (max-width: 400px) {
-  .af-main-card { padding: 8px 4px; }
-  .af-main-heading h2 { font-size: 13px; }
-  table.af-pay-table { min-width: 460px; font-size: 7px; }
-  .af-btn-calculate { font-size: 10px; padding: 9px 24px; }
+  .af-main-card { 
+    padding: 8px 4px; 
+  }
+  
+  .af-main-heading h2 { 
+    font-size: 13px; 
+  }
+  
+  table.af-pay-table { 
+    min-width: 460px; 
+    font-size: 7px; 
+  }
+  
+  .af-btn-calculate { 
+    font-size: 10px; 
+    padding: 9px 24px; 
+  }
+}
+
+/* Print styles */
+@media print {
+  .af-embedded-wrapper {
+    padding: 0;
+  }
+  
+  .af-btn-row {
+    display: none;
+  }
+  
+  .af-main-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
 }
 </style>
 </head>
 <body>
 
-<div class="embedded-content">
-
+<div class="af-embedded-wrapper">
   <div class="af-main-card">
     <div class="af-main-heading">
       <h2>Armed Forces <span class="af-golden-text">Pay Detail Summary</span></h2>
@@ -446,7 +515,6 @@ table.af-pay-table tbody tr:hover td {
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -464,7 +532,7 @@ const AF_PAY_EVENTS = [
 {date:'01/07/1994',type:'rev',label:'Pay Revised on 01/07/1994',scaleYear:1994},{date:'01/12/1994',type:'inc',label:'Annual Inc on 01/12/1994'},{date:'01/12/1995',type:'inc',label:'Annual Inc on 01/12/1995'},{date:'01/12/1996',type:'inc',label:'Annual Inc on 01/12/1996'},{date:'01/12/1997',type:'inc',label:'Annual Inc on 01/12/1997'},{date:'01/12/1998',type:'inc',label:'Annual Inc on 01/12/1998'},{date:'01/12/1999',type:'inc',label:'Annual Inc on 01/12/1999'},{date:'01/12/2000',type:'inc',label:'Annual Inc on 01/12/2000'},{date:'01/12/2001',type:'inc',label:'Annual Inc on 01/12/2001'},{date:'24/12/2001',type:'rev',label:'Pay Revised on 24/12/2001',scaleYear:2001},{date:'01/12/2002',type:'inc',label:'Annual Inc on 01/12/2002'},{date:'01/12/2003',type:'inc',label:'Annual Inc on 01/12/2003'},{date:'01/12/2004',type:'inc',label:'Annual Inc on 01/12/2004'},{date:'01/07/2005',type:'rev',label:'Pay Revised on 01/07/2005',scaleYear:2005},{date:'01/12/2005',type:'inc',label:'Annual Inc on 01/12/2005'},{date:'01/12/2006',type:'inc',label:'Annual Inc on 01/12/2006'},{date:'01/07/2007',type:'rev',label:'Pay Revised on 01/07/2007',scaleYear:2007},{date:'01/12/2007',type:'inc',label:'Annual Inc on 01/12/2007'},{date:'01/07/2008',type:'rev',label:'Pay Revised on 01/07/2008',scaleYear:2008},{date:'01/12/2008',type:'inc',label:'Annual Inc on 01/12/2008'},{date:'01/12/2009',type:'inc',label:'Annual Inc on 01/12/2009'},{date:'01/12/2010',type:'inc',label:'Annual Inc on 01/12/2010'},{date:'01/07/2011',type:'rev',label:'Pay Revised on 01/07/2011',scaleYear:2011},{date:'01/12/2011',type:'inc',label:'Annual Inc on 01/12/2011'},{date:'01/12/2012',type:'inc',label:'Annual Inc on 01/12/2012'},{date:'01/12/2013',type:'inc',label:'Annual Inc on 01/12/2013'},{date:'01/12/2014',type:'inc',label:'Annual Inc on 01/12/2014'},{date:'01/07/2015',type:'rev',label:'Pay Revised on 01/07/2015',scaleYear:2015},{date:'01/12/2015',type:'inc',label:'Annual Inc on 01/12/2015'},{date:'01/07/2016',type:'rev',label:'Pay Revised on 01/07/2016',scaleYear:2016},{date:'01/12/2016',type:'inc',label:'Annual Inc on 01/12/2016'},{date:'01/07/2017',type:'rev',label:'Pay Revised on 01/07/2017',scaleYear:2017},{date:'01/12/2017',type:'inc',label:'Annual Inc on 01/12/2017'},{date:'01/12/2018',type:'inc',label:'Annual Inc on 01/12/2018'},{date:'01/12/2019',type:'inc',label:'Annual Inc on 01/12/2019'},{date:'01/12/2020',type:'inc',label:'Annual Inc on 01/12/2020'},{date:'01/12/2021',type:'inc',label:'Annual Inc on 01/12/2021'},{date:'01/07/2022',type:'rev',label:'Pay Revised on 01/07/2022',scaleYear:2022},{date:'01/12/2022',type:'inc',label:'Annual Inc on 01/12/2022'},{date:'01/12/2023',type:'inc',label:'Annual Inc on 01/12/2023'},{date:'01/12/2024',type:'inc',label:'Annual Inc on 01/12/2024'},{date:'01/12/2025',type:'inc',label:'Annual Inc on 01/12/2025'},{date:'01/12/2026',type:'inc',label:'Annual Inc on 01/12/2026'}
 ];
 
-// Initialize
+// Initialize pay scales dropdown
 (function(){
   const sel = document.getElementById('inp_scale');
   if(sel){
@@ -476,19 +544,89 @@ const AF_PAY_EVENTS = [
 })();
 
 const AF_REV_DATES = {};
-AF_PAY_EVENTS.forEach(ev => { if(ev.type === 'rev' && ev.scaleYear) { if(!AF_REV_DATES[ev.scaleYear]) { AF_REV_DATES[ev.scaleYear] = ev.date; } } });
+AF_PAY_EVENTS.forEach(ev => { 
+  if(ev.type === 'rev' && ev.scaleYear) { 
+    if(!AF_REV_DATES[ev.scaleYear]) { 
+      AF_REV_DATES[ev.scaleYear] = ev.date; 
+    } 
+  } 
+});
 
-function afParseDate(s) { if(!s) return null; s = s.trim(); if(s.match(/^\d{4}-\d{2}-\d{2}$/)) { const p = s.split('-'); s = p[2] + '/' + p[1] + '/' + p[0]; } const p = s.split('/'); if(p.length !== 3) return null; const d = new Date(+p[2], +p[1] - 1, +p[0]); return isNaN(d.getTime()) ? null : d; }
-function afFormatDate(d) { if(!d) return ''; return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear(); }
-function afIsJunNov(d) { return (d.getMonth() + 1) >= 6 && (d.getMonth() + 1) <= 11; }
-function afGetScaleRevisions(s) { return AF_PAY_SCALES[s] || []; }
-function afGetScaleEntry(s, y) { return afGetScaleRevisions(s).find(r => r.year === y) || null; }
-function afGetApplicableRevYear(s, bd) { const revs = afGetScaleRevisions(s); let eff = null; for(const rev of revs) { const edStr = AF_REV_DATES[rev.year]; const ed = edStr ? afParseDate(edStr) : null; if(ed && ed <= bd) { eff = rev; } else if(!ed && rev.year <= bd.getFullYear()) { eff = rev; } } return eff ? eff.year : (revs.length > 0 ? revs[0].year : null); }
-function afGetStageIndex(s, sy, p) { const r = afGetScaleEntry(s, sy); if(!r) return 0; const i = r.stages.indexOf(p); return i >= 0 ? i : 0; }
-function afFixOnRevision(s, o, n, p) { const or = afGetScaleEntry(s, o), nr = afGetScaleEntry(s, n); if(!or || !nr) return p; const si = afGetStageIndex(s, o, p); return nr.stages[Math.min(si, nr.stages.length - 1)]; }
-function afApplyIncrement(s, sy, p) { const r = afGetScaleEntry(s, sy); if(!r) return p; const ci = afGetStageIndex(s, sy, p); return ci >= r.stages.length - 1 ? r.stages[r.stages.length - 1] : r.stages[ci + 1]; }
-function afIsMaxStage(s, sy, p) { const r = afGetScaleEntry(s, sy); return !!r && p >= r.stages[r.stages.length - 1]; }
-function afGetScaleSummary(s, sy) { const r = afGetScaleEntry(s, sy); return r ? `${r.min}-${r.inc}-${r.stages[r.stages.length - 1]}` : ''; }
+function afParseDate(s) { 
+  if(!s) return null; 
+  s = s.trim(); 
+  if(s.match(/^\d{4}-\d{2}-\d{2}$/)) { 
+    const p = s.split('-'); 
+    s = p[2] + '/' + p[1] + '/' + p[0]; 
+  } 
+  const p = s.split('/'); 
+  if(p.length !== 3) return null; 
+  const d = new Date(+p[2], +p[1] - 1, +p[0]); 
+  return isNaN(d.getTime()) ? null : d; 
+}
+
+function afFormatDate(d) { 
+  if(!d) return ''; 
+  return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear(); 
+}
+
+function afIsJunNov(d) { 
+  return (d.getMonth() + 1) >= 6 && (d.getMonth() + 1) <= 11; 
+}
+
+function afGetScaleRevisions(s) { 
+  return AF_PAY_SCALES[s] || []; 
+}
+
+function afGetScaleEntry(s, y) { 
+  return afGetScaleRevisions(s).find(r => r.year === y) || null; 
+}
+
+function afGetApplicableRevYear(s, bd) { 
+  const revs = afGetScaleRevisions(s); 
+  let eff = null; 
+  for(const rev of revs) { 
+    const edStr = AF_REV_DATES[rev.year]; 
+    const ed = edStr ? afParseDate(edStr) : null; 
+    if(ed && ed <= bd) { 
+      eff = rev; 
+    } else if(!ed && rev.year <= bd.getFullYear()) { 
+      eff = rev; 
+    } 
+  } 
+  return eff ? eff.year : (revs.length > 0 ? revs[0].year : null); 
+}
+
+function afGetStageIndex(s, sy, p) { 
+  const r = afGetScaleEntry(s, sy); 
+  if(!r) return 0; 
+  const i = r.stages.indexOf(p); 
+  return i >= 0 ? i : 0; 
+}
+
+function afFixOnRevision(s, o, n, p) { 
+  const or = afGetScaleEntry(s, o), nr = afGetScaleEntry(s, n); 
+  if(!or || !nr) return p; 
+  const si = afGetStageIndex(s, o, p); 
+  return nr.stages[Math.min(si, nr.stages.length - 1)]; 
+}
+
+function afApplyIncrement(s, sy, p) { 
+  const r = afGetScaleEntry(s, sy); 
+  if(!r) return p; 
+  const ci = afGetStageIndex(s, sy, p); 
+  return ci >= r.stages.length - 1 ? r.stages[r.stages.length - 1] : r.stages[ci + 1]; 
+}
+
+function afIsMaxStage(s, sy, p) { 
+  const r = afGetScaleEntry(s, sy); 
+  return !!r && p >= r.stages[r.stages.length - 1]; 
+}
+
+function afGetScaleSummary(s, sy) { 
+  const r = afGetScaleEntry(s, sy); 
+  return r ? `${r.min}-${r.inc}-${r.stages[r.stages.length - 1]}` : ''; 
+}
 
 let AF_ROWS = [], AF_MD = null, AF_RD = null;
 
@@ -502,72 +640,203 @@ function calculateAFPay() {
   errEl.classList.add('af-hidden');
   resEl.classList.add('af-hidden');
   
-  if(!mustred || !retire || !scale) { errEl.textContent = 'Please fill all required fields (Mustered Date, Pay Scale, Retirement Date).'; errEl.classList.remove('af-hidden'); return; }
+  if(!mustred || !retire || !scale) { 
+    errEl.textContent = 'Please fill all required fields (Mustered Date, Pay Scale, Retirement Date).'; 
+    errEl.classList.remove('af-hidden'); 
+    return; 
+  }
   
   const mD = afParseDate(mustred), rD = afParseDate(retire);
-  if(!mD || !rD) { errEl.textContent = 'Invalid date format.'; errEl.classList.remove('af-hidden'); return; }
-  if(rD <= mD) { errEl.textContent = 'Retirement date must be after mustered date.'; errEl.classList.remove('af-hidden'); return; }
-  if(!afGetScaleRevisions(scale).length) { errEl.textContent = 'Scale not found.'; errEl.classList.remove('af-hidden'); return; }
+  if(!mD || !rD) { 
+    errEl.textContent = 'Invalid date format.'; 
+    errEl.classList.remove('af-hidden'); 
+    return; 
+  }
+  if(rD <= mD) { 
+    errEl.textContent = 'Retirement date must be after mustered date.'; 
+    errEl.classList.remove('af-hidden'); 
+    return; 
+  }
+  if(!afGetScaleRevisions(scale).length) { 
+    errEl.textContent = 'Scale not found.'; 
+    errEl.classList.remove('af-hidden'); 
+    return; 
+  }
   
   AF_MD = mD; AF_RD = rD;
   const iRY = afGetApplicableRevYear(scale, mD);
-  if(!iRY) { errEl.textContent = 'No applicable scale revision found.'; errEl.classList.remove('af-hidden'); return; }
+  if(!iRY) { 
+    errEl.textContent = 'No applicable scale revision found.'; 
+    errEl.classList.remove('af-hidden'); 
+    return; 
+  }
   
   const iR = afGetScaleEntry(scale, iRY), mJN = afIsJunNov(mD), iP = iR.stages[0];
   let cP = iP, cS = scale, cRY = iRY;
   
-  const rows = [{ id: 'r1', eventLabel: `Mustered in Scale ${scale} on ${afFormatDate(mD)}`, date: mD, scale: cS, scaleRevYear: cRY, pay: cP, changeAmt: 0, remark: 'Initial Stage 0', type: 'mustered', skipNextInc: mJN }];
+  const rows = [{ 
+    id: 'r1', 
+    eventLabel: `Mustered in Scale ${scale} on ${afFormatDate(mD)}`, 
+    date: mD, 
+    scale: cS, 
+    scaleRevYear: cRY, 
+    pay: cP, 
+    changeAmt: 0, 
+    remark: 'Initial Stage 0', 
+    type: 'mustered', 
+    skipNextInc: mJN 
+  }];
+  
   let sk = mJN;
   
   for(const ev of AF_PAY_EVENTS) {
     const ed = afParseDate(ev.date);
     if(!ed || ed <= mD || ed > rD) continue;
+    
     if(ev.type === 'inc') {
-      if(sk) { sk = false; rows.push({ id: 'r' + Date.now() + Math.random(), eventLabel: ev.label + ' (Skip)', date: ed, scale: cS, scaleRevYear: cRY, pay: cP, changeAmt: 0, remark: 'Jun-Nov Skip', type: 'inc-skip' }); continue; }
-      if(afIsMaxStage(cS, cRY, cP)) { rows.push({ id: 'r' + Date.now() + Math.random(), eventLabel: ev.label + ' (Max)', date: ed, scale: cS, scaleRevYear: cRY, pay: cP, changeAmt: 0, remark: 'Max Stage', type: 'inc' }); continue; }
-      const pr = cP; cP = afApplyIncrement(cS, cRY, cP);
-      rows.push({ id: 'r' + Date.now() + Math.random(), eventLabel: ev.label, date: ed, scale: cS, scaleRevYear: cRY, pay: cP, changeAmt: cP - pr, remark: 'Inc', type: 'inc' });
+      if(sk) { 
+        sk = false; 
+        rows.push({ 
+          id: 'r' + Date.now() + Math.random(), 
+          eventLabel: ev.label + ' (Skip)', 
+          date: ed, 
+          scale: cS, 
+          scaleRevYear: cRY, 
+          pay: cP, 
+          changeAmt: 0, 
+          remark: 'Jun-Nov Skip', 
+          type: 'inc-skip' 
+        }); 
+        continue; 
+      }
+      if(afIsMaxStage(cS, cRY, cP)) { 
+        rows.push({ 
+          id: 'r' + Date.now() + Math.random(), 
+          eventLabel: ev.label + ' (Max)', 
+          date: ed, 
+          scale: cS, 
+          scaleRevYear: cRY, 
+          pay: cP, 
+          changeAmt: 0, 
+          remark: 'Max Stage', 
+          type: 'inc' 
+        }); 
+        continue; 
+      }
+      const pr = cP; 
+      cP = afApplyIncrement(cS, cRY, cP);
+      rows.push({ 
+        id: 'r' + Date.now() + Math.random(), 
+        eventLabel: ev.label, 
+        date: ed, 
+        scale: cS, 
+        scaleRevYear: cRY, 
+        pay: cP, 
+        changeAmt: cP - pr, 
+        remark: 'Inc', 
+        type: 'inc' 
+      });
     } else if(ev.type === 'rev') {
       if(!afGetScaleEntry(cS, ev.scaleYear)) continue;
-      const pr = cP, oRY = cRY; cRY = ev.scaleYear; cP = afFixOnRevision(cS, oRY, cRY, pr);
-      rows.push({ id: 'r' + Date.now() + Math.random(), eventLabel: ev.label, date: ed, scale: cS, scaleRevYear: cRY, pay: cP, changeAmt: cP - pr, remark: 'Revision', type: 'rev' });
+      const pr = cP, oRY = cRY; 
+      cRY = ev.scaleYear; 
+      cP = afFixOnRevision(cS, oRY, cRY, pr);
+      rows.push({ 
+        id: 'r' + Date.now() + Math.random(), 
+        eventLabel: ev.label, 
+        date: ed, 
+        scale: cS, 
+        scaleRevYear: cRY, 
+        pay: cP, 
+        changeAmt: cP - pr, 
+        remark: 'Revision', 
+        type: 'rev' 
+      });
     }
   }
   
   const rJN = afIsJunNov(rD);
-  if(rJN && !afIsMaxStage(cS, cRY, cP)) { const pr = cP; cP = afApplyIncrement(cS, cRY, cP); rows.push({ id: 'r' + Date.now() + Math.random(), eventLabel: 'Pension Increment', date: rD, scale: cS, scaleRevYear: cRY, pay: cP, changeAmt: cP - pr, remark: 'Retired Jun-Nov', type: 'pension' }); }
+  if(rJN && !afIsMaxStage(cS, cRY, cP)) { 
+    const pr = cP; 
+    cP = afApplyIncrement(cS, cRY, cP); 
+    rows.push({ 
+      id: 'r' + Date.now() + Math.random(), 
+      eventLabel: 'Pension Increment', 
+      date: rD, 
+      scale: cS, 
+      scaleRevYear: cRY, 
+      pay: cP, 
+      changeAmt: cP - pr, 
+      remark: 'Retired Jun-Nov', 
+      type: 'pension' 
+    }); 
+  }
   
   AF_ROWS = rows;
   afUpdateCard();
   afRenderTable();
   resEl.classList.remove('af-hidden');
-  resEl.scrollIntoView({ behavior: 'smooth' });
+  
+  // Smooth scroll to results
+  setTimeout(() => {
+    resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
 }
 
 function afUpdateCard() {
   if(!AF_ROWS.length) return;
   const lR = AF_ROWS[AF_ROWS.length - 1], rJN = afIsJunNov(AF_RD);
-  document.getElementById('af_summary_boxes').innerHTML = `<div class="af-final-pay-card"><div class="af-card-label">Final Basic Pay at Retirement</div><div class="af-card-amount">Rs. ${lR.pay.toLocaleString()}</div><div class="af-card-detail">Scale: ${lR.scale} | Retirement: ${afFormatDate(AF_RD)}${rJN ? ' | Pension Added' : ''}</div></div>`;
+  document.getElementById('af_summary_boxes').innerHTML = `
+    <div class="af-final-pay-card">
+      <div class="af-card-label">Final Basic Pay at Retirement</div>
+      <div class="af-card-amount">Rs. ${lR.pay.toLocaleString()}</div>
+      <div class="af-card-detail">Scale: ${lR.scale} | Retirement: ${afFormatDate(AF_RD)}${rJN ? ' | Pension Added' : ''}</div>
+    </div>`;
 }
 
 function afRenderTable() {
   AF_ROWS.forEach((r, i) => r.sno = i + 1);
   const lR = AF_ROWS[AF_ROWS.length - 1];
   let h = `<table class="af-pay-table"><thead><tr><th>S.No</th><th>Pay Details</th><th>Pay Scale</th><th>Basic Pay (Rs)</th><th>Change (Rs)</th><th>Remarks</th></tr></thead><tbody>`;
+  
   AF_ROWS.forEach(r => {
     const rc = r.type === 'mustered' ? 'af-row-mustered' : r.type === 'rev' ? 'af-row-rev' : r.type === 'pension' ? 'af-row-pension' : '';
     const sc = afGetScaleSummary(r.scale, r.scaleRevYear);
     const chg = r.changeAmt > 0 ? '+' + r.changeAmt.toLocaleString() : (r.changeAmt < 0 ? r.changeAmt.toLocaleString() : '—');
-    h += `<tr class="${rc}"><td>${r.sno}</td><td style="text-align:left;">${r.eventLabel}</td><td style="font-size:clamp(6px,0.6vw,9px);">${r.scale}<br><small>(${sc})</small></td><td style="font-weight:700;">${r.pay.toLocaleString()}</td><td style="color:${r.changeAmt > 0 ? '#2e7d32' : r.changeAmt < 0 ? '#c62828' : 'inherit'};font-weight:${r.changeAmt !== 0 ? '700' : '400'};">${chg}</td><td style="font-size:clamp(6px,0.6vw,9px);text-align:left;">${r.remark}</td></tr>`;
+    h += `<tr class="${rc}">
+      <td>${r.sno}</td>
+      <td style="text-align:left;">${r.eventLabel}</td>
+      <td style="font-size:clamp(6px,0.6vw,9px);">${r.scale}<br><small>(${sc})</small></td>
+      <td style="font-weight:700;">${r.pay.toLocaleString()}</td>
+      <td style="color:${r.changeAmt > 0 ? '#2e7d32' : r.changeAmt < 0 ? '#c62828' : 'inherit'};font-weight:${r.changeAmt !== 0 ? '700' : '400'};">${chg}</td>
+      <td style="font-size:clamp(6px,0.6vw,9px);text-align:left;">${r.remark}</td>
+    </tr>`;
   });
+  
   h += `</tbody></table>`;
-  if(lR) { h += `<div class="af-pay-summary-footer"><b>Final Basic Pay at Retirement:</b> Rs. ${lR.pay.toLocaleString()} | <b>Scale:</b> ${lR.scale} | <b>Retirement:</b> ${afFormatDate(AF_RD)}</div>`; }
+  if(lR) { 
+    h += `<div class="af-pay-summary-footer">
+      <b>Final Basic Pay at Retirement:</b> Rs. ${lR.pay.toLocaleString()} | 
+      <b>Scale:</b> ${lR.scale} | 
+      <b>Retirement:</b> ${afFormatDate(AF_RD)}
+    </div>`; 
+  }
+  
   document.getElementById('af_pay_table_area').innerHTML = h;
 }
 
-function openAFPrintPreview() { if(!AF_ROWS.length) { alert('Please calculate pay details first.'); return; } window.print(); }
+function openAFPrintPreview() { 
+  if(!AF_ROWS.length) { 
+    alert('Please calculate pay details first.'); 
+    return; 
+  } 
+  window.print(); 
+}
 
-console.log('✅ Armed Forces Pay Verification Ready');
+// Log initialization
+console.log('✅ Armed Forces Pay Verification System Ready');
+console.log('📋 Available Scales: Z-1, Z-2, Y-1, Y-2');
+console.log('🔧 Features: Salary progression, Pension calculation, Print functionality');
 </script>
 </body>
 </html>
