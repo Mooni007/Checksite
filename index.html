@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   
   <!-- Primary Meta Tags -->
   <title>Government Employees Pay & Pension Verification | Online Calculator Pakistan</title>
@@ -36,7 +36,7 @@
   <meta property="twitter:image" content="https://pay-pension-verification.github.io/og-image.jpg">
   
   <!-- Canonical URL -->
-  <meta rel="canonical" href="https://pay-pension-verification.github.io/">
+  <link rel="canonical" href="https://pay-pension-verification.github.io/">
   
   <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
@@ -191,6 +191,7 @@
     /* ========== DYNAMIC CONTENT CONTAINER ========== */
     #dynamic-content {
       transition: opacity 0.3s ease;
+      min-height: 60vh;
     }
 
     /* ========== TOP HEADER ========== */
@@ -409,16 +410,13 @@
 </head>
 <body>
 
-  <!-- Skip to main content for accessibility -->
   <a href="#mainContent" class="skip-to-main">Skip to main content</a>
 
-  <!-- Page Loader -->
   <div id="page-loader">
     <div class="loader-spinner"></div>
     <p style="color: var(--primary-dark); font-weight: 600;">Loading page...</p>
   </div>
 
-  <!-- Error Modal -->
   <div class="modal-overlay" id="errorModal">
     <div class="modal-box">
       <div class="modal-icon"><i class="fas fa-exclamation-triangle"></i></div>
@@ -432,7 +430,6 @@
 
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   
-  <!-- Sidebar Navigation -->
   <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
     <div class="sidebar-header">
       <div class="sidebar-logo"><span class="sidebar-logo-gradient">Pay & Pension</span></div>
@@ -494,7 +491,6 @@
     <div class="sidebar-footer"><p>&copy; <span id="sidebarYear"></span> Pay & Pension Verification</p></div>
   </aside>
 
-  <!-- Header -->
   <header class="top-header" id="topHeader" role="banner">
     <div class="header-container">
       <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -516,9 +512,7 @@
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="main-content" id="mainContent" role="main">
-    <!-- Dynamic content will be loaded here -->
     <div id="dynamic-content">
       <!-- Our Services Section -->
       <section class="services-expandable-card" id="servicesCard" aria-labelledby="servicesHeading">
@@ -772,7 +766,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="footer-section" id="footerSection" role="contentinfo">
     <div class="footer-tagline">
       <p>Professional Pension & Pay Verification Services for Government Employees in Pakistan</p>
@@ -822,7 +815,6 @@
       const dynamicContent = document.getElementById('dynamic-content');
       const pageLoader = document.getElementById('page-loader');
       const errorModal = document.getElementById('errorModal');
-      const mainContent = document.getElementById('mainContent');
 
       // Current page state
       let currentPage = 'home';
@@ -884,7 +876,7 @@
         toggle.setAttribute('aria-expanded', !isOpen);
       };
 
-      // Card expand/collapse (works on static and dynamically loaded content)
+      // Card expand/collapse
       window.toggleCard = function(cardId) {
         const card = document.getElementById(cardId);
         if (!card) return;
@@ -916,7 +908,6 @@
       // ---------- ERROR MODAL ----------
       window.closeErrorModal = function() {
         errorModal.classList.remove('active');
-        // Navigate back to home
         navigateTo('index.html', 'home');
       };
 
@@ -925,9 +916,8 @@
         pageLoader.classList.remove('active');
       }
 
-      // ---------- DYNAMIC PAGE LOADING ----------
+      // ---------- DYNAMIC SPA NAVIGATION ----------
       async function loadPage(url, pageId) {
-        // Check cache first
         if (pageCache[pageId]) {
           renderContent(pageCache[pageId], pageId);
           return;
@@ -942,7 +932,6 @@
           }
           const html = await response.text();
           
-          // Extract main content from fetched page (between body tags or specific container)
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
           
@@ -951,11 +940,9 @@
           if (fetchedMain) {
             content = fetchedMain.innerHTML;
           } else {
-            // Fallback: get body content
             content = doc.body.innerHTML;
           }
           
-          // Cache the content
           pageCache[pageId] = content;
           renderContent(content, pageId);
           
@@ -971,29 +958,22 @@
         dynamicContent.innerHTML = content;
         currentPage = pageId;
         
-        // Update active nav items
         updateActiveNavItems(pageId);
-        
-        // Re-attach event listeners to newly loaded dynamic links
         attachDynamicLinkListeners();
         
-        // Scroll to top smoothly
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
-        // Close sidebar on mobile after navigation
         if (window.innerWidth < 1025) {
           closeSidebar();
         }
       }
 
       function updateActiveNavItems(pageId) {
-        // Remove all active classes
         document.querySelectorAll('.sidebar-nav-item.active, .sidebar-submenu a.active').forEach(el => {
           el.classList.remove('active');
           el.removeAttribute('aria-current');
         });
         
-        // Set active based on data-page attribute
         const activeLink = document.querySelector(`[data-page="${pageId}"]`);
         if (activeLink) {
           activeLink.classList.add('active');
@@ -1005,7 +985,6 @@
 
       function attachDynamicLinkListeners() {
         document.querySelectorAll('.dynamic-link, a[data-page]').forEach(link => {
-          // Remove existing listener to avoid duplicates
           link.removeEventListener('click', dynamicLinkHandler);
           link.addEventListener('click', dynamicLinkHandler);
         });
@@ -1021,42 +1000,26 @@
       }
 
       function navigateTo(url, pageId) {
-        // Update browser history
         history.pushState({ pageId, url }, '', url);
         loadPage(url, pageId);
       }
 
-      // Handle browser back/forward
       window.addEventListener('popstate', (event) => {
         if (event.state && event.state.pageId) {
           loadPage(event.state.url, event.state.pageId);
         } else {
-          // Default to home
           loadPage('index.html', 'home');
         }
       });
 
-      // Initial setup - attach listeners to all existing links
+      // Initial attachment
       attachDynamicLinkListeners();
 
-      // Keyboard accessibility
       document.addEventListener('keydown', (e) => { 
         if (e.key === 'Escape' && window.innerWidth < 1025) closeSidebar(); 
       });
 
-      // Active nav item handling for static items
-      document.querySelectorAll('.sidebar-nav-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-          if (!this.classList.contains('sidebar-dropdown-toggle')) {
-            document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-          }
-        });
-      });
-
-      console.log('✅ SEO-Optimized Platform Initialized with Dynamic Page Loading');
-      console.log('📋 Government Employees Pay & Pension Verification');
-      console.log('🔄 SPA-like navigation with error handling ready');
+      console.log('✅ SPA Navigation Ready | Government Employees Pay & Pension Verification');
     })();
   </script>
 </body>
